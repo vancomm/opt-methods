@@ -1,26 +1,22 @@
+import Memoized from './src/memoize.js';
 import minFuncs from './src/minFuncs.js';
 
-const extType = 'max';
 const interval = [2, 6];
 const eps = 0.002;
 
-const f = (x) => 5 * x ** 2 * Math.E ** (-x / 2);
+const f = (x) => -5 * x ** 2 * Math.E ** (-x / 2);
+const df = (x) => 2.5 * (x - 4) * x ** Math.E ** (-x / 2);
 
 const run = (minFunc) => {
-  const cache = {};
-  const f_memo = (x) => {
-    if (!cache[x]) {
-      cache[x] = f(x);
-    }
-    return cache[x];
-  };
+  const df_memo = new Memoized(df);
   const { name } = minFunc;
-  const result = minFunc(f_memo, interval, eps, extType);
-  const calls = Object.keys(cache).length;
+  const x_m = minFunc(df_memo.call.bind(df_memo), eps, interval);
+  const df_calls = Object.keys(df_memo.cache).length;
   return [
     name,
-    `result:\t\t${result}`,
-    `calls\t\t${calls}`,
+    `x*:\t\t${x_m}`,
+    `f_m:\t\t${f(x_m)}`,
+    `f'(x) calls:\t${df_calls}`,
   ].join('\n');
 };
 
