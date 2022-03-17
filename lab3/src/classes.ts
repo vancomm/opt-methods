@@ -3,6 +3,12 @@ export type VectorFunction = (point: Point) => Vector;
 export type MatrixFunction = (point: Point) => Matrix;
 
 export class Point {
+  static subtract(minuend: Point, subtrahend: Point): Vector {
+    const { x: x1, y: y1 } = minuend;
+    const { x: x2, y: y2 } = subtrahend;
+    return new Vector(x1 - x2, y1 - y2);
+  }
+
   readonly x;
   readonly y;
 
@@ -18,12 +24,6 @@ export class Point {
 }
 
 export class Vector {
-  static subtract(minuend: Point, subtrahend: Point): Vector {
-    const { x: x1, y: y1 } = minuend;
-    const { x: x2, y: y2 } = subtrahend;
-    return new Vector(x1 - x2, y1 - y2);
-  }
-
   readonly x;
   readonly y;
   readonly norm;

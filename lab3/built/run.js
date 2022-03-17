@@ -1,6 +1,17 @@
 import { Matrix, Point, Vector } from './classes.js';
 import { descent } from './descent.js';
+import { steepest } from './steepest.js';
 import { lm } from './lm.js';
+function print(x_m, f) {
+    const { x, y } = x_m;
+    const message = [
+        'x_m:',
+        `\t(${x.toFixed(4)}, ${y.toFixed(4)})`,
+        'f(x_m):',
+        `\t${f(x_m).toFixed(4)}`,
+    ].join('\n');
+    console.log(message);
+}
 function runDescent() {
     function f(point) {
         const { x, y } = point;
@@ -17,9 +28,25 @@ function runDescent() {
         M: 1000,
         gamma: 0.1,
     };
-    const x_m = descent(f, gradf, x0, params);
-    console.log(x_m);
-    console.log(f(x_m));
+    print(descent(f, gradf, x0, params), f);
+}
+function runSteepest() {
+    function f(point) {
+        const { x, y } = point;
+        return 3 * (Math.pow(x, 2)) + x * y + 2 * (Math.pow(y, 2)) - x - 4 * y;
+    }
+    function gradf(point) {
+        const { x, y } = point;
+        return new Vector((6 * x + y - 1), (x + 4 * y - 4));
+    }
+    const x0 = new Point(2, 2);
+    const params = {
+        eps1: 0.0001,
+        eps2: 0.0001,
+        M: 1000,
+        gamma: 0.1,
+    };
+    print(steepest(f, gradf, x0, params), f);
 }
 function runLM() {
     function f(point) {
@@ -54,11 +81,10 @@ function runLM() {
         M: 1000,
         mu: 0.001,
     };
-    const x_m = lm(f, gradf, hesse, x0, params);
-    console.log(x_m);
-    console.log(f(x_m));
+    print(lm(f, gradf, hesse, x0, params), f);
 }
 export default function run() {
     runDescent();
+    runSteepest();
     runLM();
 }

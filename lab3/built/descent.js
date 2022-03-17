@@ -1,4 +1,4 @@
-import { Vector } from "./classes.js";
+import { Point } from "./classes.js";
 export function descent(f, gradf, x0, params) {
     const { eps1, eps2, gamma, M } = params;
     function iter(xk, k) {
@@ -18,7 +18,7 @@ export function descent(f, gradf, x0, params) {
         }
         ;
         const xk_next = get_x_next(gamma);
-        if (Vector.subtract(xk_next, xk).norm <= eps2 && Math.abs(f(xk_next) - f(xk)) <= eps2) {
+        if (Point.subtract(xk_next, xk).norm <= eps2 && Math.abs(f(xk_next) - f(xk)) <= eps2) {
             console.log(`Precision eps2 = ${eps2} achieved, exiting`);
             return xk_next;
         }

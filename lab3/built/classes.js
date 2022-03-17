@@ -3,6 +3,11 @@ export class Point {
         this.x = x;
         this.y = y;
     }
+    static subtract(minuend, subtrahend) {
+        const { x: x1, y: y1 } = minuend;
+        const { x: x2, y: y2 } = subtrahend;
+        return new Vector(x1 - x2, y1 - y2);
+    }
     subtract(subtrahend) {
         const { x, y } = subtrahend;
         return new Point(this.x - x, this.y - y);
@@ -14,11 +19,6 @@ export class Vector {
         this.x = x;
         this.y = y;
         this.norm = Math.sqrt(Math.pow(this.x, 2) + Math.pow(this.y, 2));
-    }
-    static subtract(minuend, subtrahend) {
-        const { x: x1, y: y1 } = minuend;
-        const { x: x2, y: y2 } = subtrahend;
-        return new Vector(x1 - x2, y1 - y2);
     }
     subtract(subtrahend) {
         const { x, y } = subtrahend;
