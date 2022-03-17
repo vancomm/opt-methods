@@ -1,4 +1,4 @@
-import { Matrix, MatrixFunction, Point, ScalarFunction, Vector, VectorFunction } from "./classes.js";
+import { Point, Vector, Matrix } from "./classes/index.js";
 
 export type Params = {
   eps1: number,
@@ -7,27 +7,21 @@ export type Params = {
 }
 
 export function lm(
-  f: ScalarFunction,
-  gradf: VectorFunction,
-  hesse: MatrixFunction,
+  f: (point: Point) => number,
+  gradf: (point: Point) => Vector,
+  hesse: (point: Point) => Matrix,
   x0: Point,
   params: Params
 ): Point {
   const { eps1, M, mu } = params;
 
   function start(xk: Point, k: number): Point {
-    function iter3(xk: Point, mu: number, k: number): Point {
-      if (gradf(xk).norm < eps1) {
-        console.log(`Precision eps1 = ${eps1} achieved, exiting`);
-        return xk;
-      }
-      if (k >= M) {
-        console.log(`Number of iterations exceeded M = ${M}, exiting`);
-        return xk;
-      }
-      return iter7(xk, mu, k);
+    function iter1(xk: Point, mu: number, k: number): Point {
+      if (gradf(xk).norm < eps1 || k >= M) return xk;
+      return iter2(xk, mu, k);
     }
-    function iter7(xk: Point, mu: number, k: number): Point {
+
+    function iter2(xk: Point, mu: number, k: number): Point {
       const d = Matrix.multiply(
         hesse(xk)
           .add(Matrix.identity
@@ -36,10 +30,12 @@ export function lm(
         gradf(xk)
       );
       const xk_next = xk.subtract(d);
-      if (f(xk_next) < f(xk)) return iter3(xk_next, mu / 2, k + 1);
-      return iter7(xk, 2 * mu, k);
+      if (f(xk_next) < f(xk)) return iter1(xk_next, mu / 2, k + 1);
+      return iter2(xk, 2 * mu, k);
     }
-    return iter3(xk, mu, k);
+
+    return iter1(xk, mu, k);
   }
+
   return start(x0, 0);
 }

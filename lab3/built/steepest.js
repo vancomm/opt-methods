@@ -1,17 +1,11 @@
-import { Point } from "./classes.js";
+import { Point } from "./classes/index.js";
 import parabola from "./parabola.js";
 export function steepest(f, gradf, x0, params) {
     const { eps1, eps2, gamma, M } = params;
     let previous_k = false;
     function iter(xk, k) {
-        if (gradf(xk).norm < eps1) {
-            console.log(`Precision eps1 = ${eps1} achieved, exiting`);
+        if (gradf(xk).norm < eps1 || k >= M)
             return xk;
-        }
-        if (k >= M) {
-            console.log(`Number of iterations exceeded M = ${M}, exiting`);
-            return xk;
-        }
         function phi(gamma) {
             return f(xk.subtract(gradf(xk).multiply(gamma)));
         }

@@ -1,4 +1,4 @@
-import { Point, ScalarFunction, Vector, VectorFunction } from "./classes.js";
+import { Point, Vector } from "./classes/index.js";
 import parabola from "./parabola.js";
 
 export type Params = {
@@ -9,23 +9,17 @@ export type Params = {
 }
 
 export function steepest(
-  f: ScalarFunction,
-  gradf: VectorFunction,
+  f: (point: Point) => number,
+  gradf: (point: Point) => Vector,
   x0: Point,
   params: Params
-) {
+): Point {
   const { eps1, eps2, gamma, M } = params;
-  let previous_k = false;
-  function iter(xk: Point, k: number): Point {
-    if (gradf(xk).norm < eps1) {
-      console.log(`Precision eps1 = ${eps1} achieved, exiting`);
-      return xk;
-    }
 
-    if (k >= M) {
-      console.log(`Number of iterations exceeded M = ${M}, exiting`);
-      return xk;
-    }
+  let previous_k = false;
+
+  function iter(xk: Point, k: number): Point {
+    if (gradf(xk).norm < eps1 || k >= M) return xk;
 
     function phi(gamma: number): number {
       return f(xk.subtract(gradf(xk).multiply(gamma)));
@@ -43,5 +37,6 @@ export function steepest(
     previous_k = false;
     return iter(xk_next, k + 1);
   }
+
   return iter(x0, 0);
 }

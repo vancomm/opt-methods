@@ -1,3 +1,5 @@
-import run from './built/run.js';
+import { runDescent, runSteepest, runLM } from './built/run.js';
 
-run();
+runDescent();
+runSteepest();
+runLM();

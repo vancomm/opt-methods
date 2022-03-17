@@ -14,17 +14,17 @@ export default function parabola(f: (x: number) => number, eps: number, x0: numb
   const eps2 = eps;
   const dx = 0.001;
 
-  function get_x_bar(x_1: number, x_2: number, x_3: number) {
-    const a_1 = (f(x_2) - f(x_1)) / (x_2 - x_1);
-    const a_2 = (1 / (x_3 - x_2))
-      * (((f(x_3) - f(x_1)) / (x_3 - x_1)) - ((f(x_2) - f(x_1)) / (x_2 - x_1)));
+  function get_x_bar(x1: number, x2: number, x3: number) {
+    const a_1 = (f(x2) - f(x1)) / (x2 - x1);
+    const a_2 = (1 / (x3 - x2))
+      * (((f(x3) - f(x1)) / (x3 - x1)) - ((f(x2) - f(x1)) / (x2 - x1)));
 
-    return (x_1 + x_2) / 2 - a_1 / (2 * a_2);
+    return (x1 + x2) / 2 - a_1 / (2 * a_2);
   }
 
-  function iter(x_1: number, x_2: number, x_3: number): number {
-    const x_m = get_x_min(f, x_1, x_2, x_3);
-    const x_bar = get_x_bar(x_1, x_2, x_3);
+  function iter(x1: number, x2: number, x3: number): number {
+    const x_m = get_x_min(f, x1, x2, x3);
+    const x_bar = get_x_bar(x1, x2, x3);
 
     const x = get_x_min(f, x_m, x_bar);
 
@@ -34,9 +34,9 @@ export default function parabola(f: (x: number) => number, eps: number, x0: numb
     return iter(x - dx, x, x + dx);
   }
 
-  const _x_1 = x0;
-  const _x_2 = _x_1 + dx;
+  const x1 = x0;
+  const x2 = x1 + dx;
 
-  if (f(_x_1) > f(_x_2)) return iter(_x_1, _x_2, _x_1 + 2 * dx);
-  return iter(_x_1 - dx, _x_1, _x_2);
+  if (f(x1) > f(x2)) return iter(x1, x2, x1 + 2 * dx);
+  return iter(x1 - dx, x1, x2);
 }
