@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": [
+      "ES2021",
+      "DOM"
+    ],
+    "module": "ES6",
+    "moduleResolution": "node",
+    "outDir": "./built",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@local/*": [
+        "../*"
+      ],
+    },
+  },
+  "include": [
+    "./src/**/*"
+  ]
+}
