@@ -12,13 +12,12 @@ export function run() {
   const x_m = 2;
 
   function runFunc(minFunc: MinFunc) {
-    const cache = {};
     const f_memo = new Memoized(f);
     const f_call = f_memo.call.bind(f_memo);
     const { name } = minFunc;
     const x_mi = minFunc(f_call, eps, [a, b]);
     const f_mi = f(x_mi);
-    const calls = Object.keys(cache).length;
+    const calls = Object.keys(f_memo.cache).length;
     return [
       name,
       `x_mi\t\t${x_mi}`,
