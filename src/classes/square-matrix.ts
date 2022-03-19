@@ -57,14 +57,7 @@ export class SquareMatrix extends Matrix {
   }
 
   static MultiplyByVector(matrix: SquareMatrix, vector: Vector): Vector {
-    const [
-      [a, b],
-      [c, d]] = matrix;
-    const [x, y] = vector;
-    return new Vector(
-      [a * x + b * y,
-        c * x + d * y],
-    );
+    return super.MultiplyByVector(matrix, vector)
   }
 
   static MinorMatrix(matrix: SquareMatrix): SquareMatrix {
@@ -120,6 +113,10 @@ export class SquareMatrix extends Matrix {
 
   multiplyByScalar(factor: number): SquareMatrix {
     return SquareMatrix.MultiplyByScalar(this, factor);
+  }
+
+  multiplyByVector(vector: Vector): Vector {
+    return SquareMatrix.MultiplyByVector(this, vector);
   }
 
   minor(i: number, j: number): number {

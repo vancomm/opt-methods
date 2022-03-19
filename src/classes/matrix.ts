@@ -30,6 +30,11 @@ export class Matrix extends Iterable<Vector> {
         .map((item) => factor * item))));
   }
 
+  static MultiplyByVector(matrix: Matrix, vector: Vector): Vector {
+    if (matrix.cols.length !== vector.length) throw new Error('Invalid argument!');
+    return new Vector([...matrix].map((row, i) => row.multiply([...vector][i]).sum));
+  }
+
   static RemoveRow(matrix: Matrix, rowNumber: number): Matrix {
     if (rowNumber > matrix.rows.length) throw new Error('Invalid argument!');
     const cut = new Matrix(matrix.rows.filter((vector, i) => i !== rowNumber));

@@ -22,13 +22,12 @@ export function lm(
   }
 
   function iter2(xk: Point, mu: number, k: number): Point {
-    const dk = SquareMatrix.MultiplyByVector(
-      hesse(xk)
-        .add(SquareMatrix.Identity(2)
-          .multiplyByScalar(mu))
-        .inverse(),
-      gradf(xk),
-    );
+    const dk = hesse(xk)
+      .add(SquareMatrix.Identity(2)
+      .multiplyByScalar(mu))
+      .inverse()
+      .multiplyByVector(gradf(xk));
+    
     const xk_next = xk.subtract(dk);
     if (f(xk_next) < f(xk)) return iter1(xk_next, mu / 2, k + 1);
     return iter2(xk, 2 * mu, k);
