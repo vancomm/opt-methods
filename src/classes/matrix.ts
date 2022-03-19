@@ -1,81 +1,81 @@
 import { Vector } from './vector.js';
+import { Iterable } from './iterable.js';
 
-export class Matrix {
-  static identity = new Matrix([
-    [1, 0],
-    [0, 1],
-  ]);
-
-  static multiply(matrix: Matrix, vector: Vector): Vector {
-    const [
-      [a, b],
-      [c, d]] = matrix.values;
-    const { x, y } = vector;
-    return new Vector(
-      a * x + b * y,
-      c * x + d * y,
-    );
+export class Matrix extends Iterable<Vector> {
+  static Transpose(matrix: Matrix): Matrix {
+    const tmp = [...matrix]
+      .map((vector, rowNum) => [...vector]
+        .map((_, colNum) => matrix.at(rowNum, colNum)));
+    const vectors = tmp[0]
+      .map((_, colNum) => tmp.map((row) => row[colNum]))
+      .map((row) => new Vector(row));
+    return new Matrix(vectors);
   }
 
-  readonly values;
-
-  readonly determinant;
-
-  constructor(values: number[][]) {
-    this.values = values;
-    this.determinant = values[0][0] * values[1][1] - values[0][1] * values[1][0];
+  static Add(...addend: Matrix[]): Matrix {
+    const [first, second, rest] = addend;
+    if (first.rows.length !== second.rows.length || first.cols.length !== second.cols.length) {
+      throw new Error('Invalid argument!');
+    }
+    const onePlusOne = new Matrix([...first]
+      .map((vector, rowNum) => new Vector([...vector]
+        .map((value, colNum) => value + second.at(rowNum, colNum)))));
+    if (rest) return this.Add(rest);
+    return onePlusOne;
   }
 
-  add(addend: Matrix): Matrix {
-    return new Matrix(this.values
-      .map((row, i) => row
-        .map((item, j) => item + addend.values[i][j])));
+  static MultiplyByScalar(matrix: Matrix, factor: number): Matrix {
+    return new Matrix([...matrix]
+      .map((vector) => new Vector([...vector]
+        .map((item) => factor * item))));
   }
 
-  multiply(factor: number): Matrix {
-    return new Matrix(this.values
-      .map((row) => row
-        .map((item) => factor * item)));
+  static RemoveRow(matrix: Matrix, rowNumber: number): Matrix {
+    if (rowNumber > matrix.rows.length) throw new Error('Invalid argument!');
+    const cut = new Matrix(matrix.rows.filter((vector, i) => i !== rowNumber));
+    return cut;
   }
 
-  get minor(): Matrix {
-    const [
-      [a, b],
-      [c, d],
-    ] = this.values;
-    return new Matrix([
-      [d, c],
-      [b, a],
-    ]);
+  static RemoveColumn(matrix: Matrix, colNumber: number): Matrix {
+    if (colNumber > matrix.cols.length) throw new Error('Invalid argument!');
+    const cut = new Matrix(matrix.cols.filter((vector, j) => j !== colNumber)).transpose();
+    return cut;
   }
 
-  get alg_additions(): Matrix {
-    const [
-      [a, b],
-      [c, d],
-    ] = this.values;
-    return new Matrix([
-      [a, -b],
-      [-c, d],
-    ]);
+  get rows(): Vector[] {
+    return [...this];
   }
 
-  get transpose(): Matrix {
-    const [
-      [a, b],
-      [c, d],
-    ] = this.values;
-    return new Matrix([
-      [a, c],
-      [b, d],
-    ]);
+  get cols(): Vector[] {
+    return [...Matrix.Transpose(this)];
   }
 
-  get inverse(): Matrix {
-    return new Matrix(this.values)
-      .minor
-      .alg_additions
-      .transpose
-      .multiply(1 / this.determinant);
+  at(row: number, col: number): number {
+    return [...[...this][row]][col];
+  }
+
+  add(...addend: Matrix[]): Matrix {
+    return Matrix.Add(this, ...addend);
+  }
+
+  transpose(): Matrix {
+    return Matrix.Transpose(this);
+  }
+
+  multiplyByScalar(factor: number): Matrix {
+    return Matrix.MultiplyByScalar(this, factor);
+  }
+
+  removeRow(rowNumber: number): Matrix {
+    return Matrix.RemoveRow(this, rowNumber);
+  }
+
+  removeColumn(colNumber: number): Matrix {
+    return Matrix.RemoveColumn(this, colNumber);
+  }
+
+  stringify(separator = '\n'): string {
+    const string = [...this].map((vector) => vector.stringify()).join(separator);
+    return string;
   }
 }

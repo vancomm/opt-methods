@@ -1,19 +1,14 @@
 env:
   browser: true
   es2021: true
+plugins:
+  - '@typescript-eslint'
 extends:
-  - airbnb-base
+  - eslint:recommended
+  - plugin:@typescript-eslint/eslint-recommended
+  - plugin:@typescript-eslint/recommended
 parser: '@typescript-eslint/parser'
 parserOptions:
   ecmaVersion: latest
   sourceType: module
-plugins:
-  - '@typescript-eslint'
-rules: 
-  camelcase: 0
-  import/extensions: 0 # FIXME: remove when rule is adjusted for new nodejs version
-  import/prefer-default-export: 0
-  import/no-unresolved: 0
-  no-console: 0
-  no-unused-vars: 0
-  no-underscore-dangle: 0
+rules: {}

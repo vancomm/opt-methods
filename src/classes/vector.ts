@@ -1,22 +1,34 @@
-export class Vector {
-  readonly x;
+import { Iterable } from './iterable.js';
 
-  readonly y;
+export class Vector extends Iterable<number> {
+  get length(): number {
+    return [...this].length;
+  }
 
-  readonly norm;
+  get sum(): number {
+    return [...this].reduce((sum, add) => sum + add, 0);
+  }
 
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
-    this.norm = Math.sqrt(this.x ** 2 + this.y ** 2);
+  get norm() {
+    return Math.sqrt([...this].map((value) => value ** 2).reduce((sum, value) => sum + value, 0));
+  }
+
+  stringify() {
+    return [...this].toString();
   }
 
   subtract(subtrahend: Vector): Vector {
-    const { x, y } = subtrahend;
-    return new Vector(this.x - x, this.y - y);
+    if (this.length !== subtrahend.length) throw new Error('Invalid argument!');
+    const values = [...this].map((value, i) => value - [...subtrahend][i]);
+    return new Vector(values);
   }
 
-  multiply(factor: number): Vector {
-    return new Vector(factor * this.x, factor * this.y);
+  multiply(factor: number) {
+    const values = [...this].map((value) => factor * value);
+    return new Vector(values);
+  }
+
+  removeAt(index: number) {
+    return new Vector([...this].filter((_, i) => i !== index));
   }
 }
