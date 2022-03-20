@@ -71,6 +71,10 @@ export class Matrix extends Iterable<Vector> {
     return Matrix.MultiplyByScalar(this, factor);
   }
 
+  multiplyByVector(vector: Vector): Vector {
+    return Matrix.MultiplyByVector(this, vector);
+  }
+
   removeRow(rowNumber: number): Matrix {
     return Matrix.RemoveRow(this, rowNumber);
   }

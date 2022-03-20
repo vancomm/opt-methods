@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export class Memoized {
-  readonly cache: any;
 
-  private fn: (...args: any[]) => any;
-
-  constructor(fn: (...args: any[]) => any) {
-    this.cache = {};
-    this.fn = fn;
+export function memoize<T>(fn: (...args: T[]) => any, resolver?: (...args: T[]) => any) {
+  const cache = new Map();   
+  const memoized = function (this: any, ...args: T[]) {
+    const key = resolver
+      ? resolver(...args)
+      : (args.length === 1)
+        ? args[0]
+        : JSON.stringify(args);
+    return cache.has(key)
+      ? cache.get(key)
+      : cache.set(key, fn.call(this, ...args)) && cache.get(key);
   }
-
-  call(...args: any[]) {
-    const hash = JSON.stringify(args);
-    if (!this.cache[hash]) this.cache[hash] = this.fn(...args);
-    return this.cache[hash];
-  }
+  memoized.cache = cache;
+  return memoized;
 }

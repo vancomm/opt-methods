@@ -18,9 +18,13 @@
   },
   "homepage": "https://github.com/vancomm/opt-methods#readme",
   "devDependencies": {
+    "@types/lodash": "^4.14.180",
     "@typescript-eslint/eslint-plugin": "^5.15.0",
     "@typescript-eslint/parser": "^5.15.0",
     "eslint": "^8.11.0",
     "eslint-plugin-import": "^2.25.4"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21"
   }
 }
