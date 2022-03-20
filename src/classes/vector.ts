@@ -1,6 +1,25 @@
 import { Iterable } from './iterable.js';
 
 export class Vector extends Iterable<number> {
+  static Subtract(minuend: Vector, subtrahend: Vector): Vector {
+    if (minuend.length !== subtrahend.length) throw new Error('Invalid argument!');
+    const values = [...minuend].map((value, i) => value - [...subtrahend][i]);
+    return new Vector(values);
+  }
+
+  static Multiply(vector: Vector, factor: number): Vector {
+    const values = [...vector].map((value) => factor * value);
+    return new Vector(values);
+  }
+
+  static RemoveAt(vector: Vector, index: number): Vector {
+    return new Vector([...vector].filter((_, i) => i !== index));
+  }
+  
+  static ToString(vector: Vector) {
+    return [...vector].join(', ');
+  }
+  
   get length(): number {
     return [...this].length;
   }
@@ -13,22 +32,19 @@ export class Vector extends Iterable<number> {
     return Math.sqrt([...this].map((value) => value ** 2).reduce((sum, value) => sum + value, 0));
   }
 
-  stringify() {
-    return [...this].toString();
-  }
-
-  subtract(subtrahend: Vector): Vector {
-    if (this.length !== subtrahend.length) throw new Error('Invalid argument!');
-    const values = [...this].map((value, i) => value - [...subtrahend][i]);
-    return new Vector(values);
+  subtract(vector: Vector): Vector {
+    return Vector.Subtract(this, vector);
   }
 
   multiply(factor: number) {
-    const values = [...this].map((value) => factor * value);
-    return new Vector(values);
+    return Vector.Multiply(this, factor);
   }
 
   removeAt(index: number) {
-    return new Vector([...this].filter((_, i) => i !== index));
+    return Vector.RemoveAt(this, index);
+  }
+
+  toString() {
+    return Vector.ToString(this);
   }
 }

@@ -2,17 +2,17 @@ import {
   descent, DescentParams,
   steepest, SteepestParams,
   lm, LMParams,
-} from '../functions/index.js';
-import { Point, Vector, SquareMatrix } from '../classes/index.js';
-import { memoize, toPrecision } from '../utils/index.js';
+} from './functions/index.js';
+import { Point, Vector, SquareMatrix } from './classes/index.js';
+import { memoize, toPrecision } from './utils/index.js';
 
 function makeMessage(name: string, x_m: Point, f: (point: Point) => number, callsF: number, callsGradF: number, callsHesse?: number) {
   const precision = 4;
   const [x, y] = x_m;
   const message = [
     `${name}`,
-    `x_m:\t(${toPrecision(x, precision)}, ${toPrecision(y, precision)})`,
-    `f(x_m):\t${toPrecision(f(x_m), 4)}`,
+    `x_m:\t\t(${toPrecision(x, precision)}, ${toPrecision(y, precision)})`,
+    `f(x_m):\t\t${toPrecision(f(x_m), 4)}`,
     `f calls:\t${callsF}`,
     `grad calls:\t${callsGradF}`,
   ].join('\n');
@@ -109,17 +109,19 @@ function runLM() {
 
   const gf_memo = memoize(gradf);
 
-  const hesse_memo = memoize(hesse);
+  const hesse_memo = memoize(hesse, (arg) => arg.toString());
 
-  const x0 = new Point(100, 100);
+  const x0 = new Point(1.1, 1.1);
 
   const params: LMParams = {
-    eps1: 0.0001,
+    eps1: 0.001,
     M: 1000,
-    mu: 0.001,
+    mu0: 1,
   };
 
   const x_m = lm(f_memo, gf_memo, hesse_memo, x0, params)
+
+  // console.log(hesse_memo.cache);
 
   return makeMessage('leveberg-marquardt', x_m, f, f_memo.cache.size, gf_memo.cache.size, hesse_memo.cache.size);
 }

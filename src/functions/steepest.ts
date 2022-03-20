@@ -24,14 +24,14 @@ export function steepest(
     if (gradf(xk).norm < eps1 || k >= M) return xk;
 
     function phi(g: number): number {
-      return f(xk.subtract(gradf(xk).multiply(g)));
+      return f(xk.subtractVector(gradf(xk).multiply(g)));
     }
 
     const gamma_star = parabola(phi, eps1, [gamma]);
 
-    const xk_next = xk.subtract(gradf(xk).multiply(gamma_star));
+    const xk_next = xk.subtractVector(gradf(xk).multiply(gamma_star));
 
-    if (Point.subtract(xk_next, xk).norm <= eps2 && Math.abs(f(xk_next) - f(xk)) <= eps2) {
+    if (xk_next.subtractPoint(xk).norm <= eps2 && Math.abs(f(xk_next) - f(xk)) <= eps2) {
       if (previous_k) return xk_next;
       previous_k = true;
       return iter(xk_next, k + 1);

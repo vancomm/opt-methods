@@ -4,7 +4,7 @@ import { Point, Vector, SquareMatrix } from '../classes/index.js';
 export type Params = {
   eps1: number,
   M: number,
-  mu: number;
+  mu0: number;
 }
 
 export function lm(
@@ -14,7 +14,7 @@ export function lm(
   x0: Point,
   params: Params,
 ): Point {
-  const { eps1, M, mu: muInit } = params;
+  const { eps1, M, mu0 } = params;
 
   function iter1(xk: Point, mu: number, k: number): Point {
     if (gradf(xk).norm < eps1 || k >= M) return xk;
@@ -28,7 +28,7 @@ export function lm(
       .inverse()
       .multiplyByVector(gradf(xk));
     
-    const xk_next = xk.subtract(dk);
+    const xk_next = xk.subtractVector(dk);
     if (f(xk_next) < f(xk)) return iter1(xk_next, mu / 2, k + 1);
     return iter2(xk, 2 * mu, k);
   }
@@ -37,5 +37,5 @@ export function lm(
     return iter1(xk, mu, k);
   }
 
-  return start(x0, muInit, 0);
+  return start(x0, mu0, 0);
 }

@@ -1,16 +1,27 @@
+import { range } from '../utils/range.js';
 import { Matrix } from './matrix.js';
 import { Vector } from './vector.js';
 
 export class SquareMatrix extends Matrix {
   static Identity(dim: number): SquareMatrix {
-    const identityMatrix = [...Array(dim).keys()]
-      .map(() => new Vector([...Array(dim).keys()]
-        .map(() => 0)))
-      .map((vector, rowNumber) => new Vector([...vector]
-        .map((_, colNumber) => ((rowNumber === colNumber)
-          ? 1
-          : 0))));
-    return new SquareMatrix(identityMatrix);
+    return new SquareMatrix(
+      range(dim).map(() => new Vector(
+          range(dim).map(() => 0))))
+      .map((_, i, j) => i === j ? 1 : 0);
+  }
+
+  static Map(
+    matrix: Matrix,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    callbackfn: (value: number, rowNum: number, colNum: number) => number, thisArg?: any
+  ): SquareMatrix {
+    return new SquareMatrix([...super.Map(matrix, callbackfn, thisArg)]);
+  }
+
+  static Add(...addends: SquareMatrix[]): SquareMatrix {
+    const [first, second] = addends;
+    if (first.dim !== second.dim) throw new Error('Invalid argument!');
+    return new SquareMatrix([...super.Add(...addends)]);
   }
 
   static Transpose(matrix: SquareMatrix): SquareMatrix {
@@ -35,8 +46,7 @@ export class SquareMatrix extends Matrix {
         [c, d]] = matrix;
       return a * d - b * c;
     }
-    const addends = [...Array(matrix.dim).keys()]
-      .map((k) => {
+    const addends = range(matrix.dim).map((k) => {
         const one = (-1) ** (k + 2);
         const a1k = matrix.at(0, k);
         const Mk = matrix.minor(0, k);
@@ -45,19 +55,8 @@ export class SquareMatrix extends Matrix {
     return addends.reduce((sum, addend) => sum + addend, 0);
   }
 
-  static Add(...addends: SquareMatrix[]): SquareMatrix {
-    const [first, second] = addends;
-    if (first.dim !== second.dim) throw new Error('Invalid argument!');
-    const sum = super.Add(...addends);
-    return new SquareMatrix([...sum]);
-  }
-
   static MultiplyByScalar(matrix: SquareMatrix, factor: number): SquareMatrix {
     return new SquareMatrix([...super.MultiplyByScalar(matrix, factor)]);
-  }
-
-  static MultiplyByVector(matrix: SquareMatrix, vector: Vector): Vector {
-    return super.MultiplyByVector(matrix, vector)
   }
 
   static MinorMatrix(matrix: SquareMatrix): SquareMatrix {
@@ -82,6 +81,10 @@ export class SquareMatrix extends Matrix {
     return inverse;
   }
 
+  static ToString(matrix: SquareMatrix, separator?: string): string {
+    return super.ToString(matrix, separator);
+  }
+
   constructor(vectors: Vector[]) {
     super(vectors);
     if (this.rows.length !== this.cols.length) throw new Error('Invalid argument!');
@@ -103,12 +106,20 @@ export class SquareMatrix extends Matrix {
     return SquareMatrix.Determinant(this);
   }
 
-  transpose(): SquareMatrix {
-    return SquareMatrix.Transpose(this);
+  map(
+    callbackfn: (value: number, rowNum: number, colNum: number) => number,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    thisArg?: any
+  ): SquareMatrix {
+    return SquareMatrix.Map(this, callbackfn, thisArg);
   }
 
   add(...addend: SquareMatrix[]): SquareMatrix {
     return SquareMatrix.Add(this, ...addend);
+  }
+
+  transpose(): SquareMatrix {
+    return SquareMatrix.Transpose(this);
   }
 
   multiplyByScalar(factor: number): SquareMatrix {
