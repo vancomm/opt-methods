@@ -1,13 +1,4 @@
-function get_x_min(f: (x: number) => number, ...x_arr: number[]) {
-  const f_map = x_arr.reduce((acc: { [key: string]: number }, x) => {
-    acc[x] = f(x);
-    return acc;
-  }, {});
-
-  const [[x_min]] = Object.entries(f_map).sort(([, v1], [, v2]) => v1 - v2);
-
-  return Number(x_min);
-}
+import { get_x_min } from '../utils/index.js';
 
 export function parabola(f: (x: number) => number, eps: number, interval: [number, number?]) {
   const [x0] = interval;
