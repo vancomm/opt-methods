@@ -6,7 +6,7 @@ export class SquareMatrix extends Matrix {
   static Identity(dim: number): SquareMatrix {
     return new SquareMatrix(
       range(dim).map(() => new Vector(
-          range(dim).map(() => 0))))
+        range(dim).map(() => 0))))
       .map((_, i, j) => i === j ? 1 : 0);
   }
 
@@ -29,13 +29,8 @@ export class SquareMatrix extends Matrix {
     return new SquareMatrix([...transposed]);
   }
 
-  /* FIXME:
-      по какой-то причине детерминант
-      вычисляется для матриц размерности 1;
-      должно быть достаточно рассмотреть
-      dim === 2 и dim > 2
-  */
   static Determinant(matrix: SquareMatrix): number {
+    // used to calculate minors for 2x2 matrices
     if (matrix.dim === 1) {
       const [[only]] = matrix;
       return only;
@@ -47,11 +42,11 @@ export class SquareMatrix extends Matrix {
       return a * d - b * c;
     }
     const addends = range(matrix.dim).map((k) => {
-        const one = (-1) ** (k + 2);
-        const a1k = matrix.at(0, k);
-        const Mk = matrix.minor(0, k);
-        return one * a1k * Mk;
-      });
+      const one = (-1) ** (k + 2);
+      const a1k = matrix.at(0, k);
+      const Mk = matrix.minor(0, k);
+      return one * a1k * Mk;
+    });
     return addends.reduce((sum, addend) => sum + addend, 0);
   }
 
@@ -69,15 +64,16 @@ export class SquareMatrix extends Matrix {
   static AlgComps(matrix: SquareMatrix): SquareMatrix {
     return new SquareMatrix([...matrix]
       .map((vector, rowNum) => new Vector([...vector]
-        .map((item, colNum) => matrix.algComp(rowNum, colNum)))));
+        .map((_, colNum) => matrix.algComp(rowNum, colNum)))));
   }
 
   static Inverse(matrix: SquareMatrix): SquareMatrix {
-    if (matrix.det === 0) throw new Error('Inverse matrix does not exist!');
+    const det = matrix.det;
+    if (det === 0) throw new Error('Inverse matrix does not exist!');
     const inverse = matrix
       .algComps()
       .transpose()
-      .multiplyByScalar(1 / matrix.det);
+      .multiplyByScalar(1 / det);
     return inverse;
   }
 

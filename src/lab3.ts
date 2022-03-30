@@ -6,7 +6,14 @@ import {
 import { Point, Vector, SquareMatrix } from './classes/index.js';
 import { memoize, toPrecision } from './utils/index.js';
 
-function makeMessage(name: string, x_m: Point, f: (point: Point) => number, callsF: number, callsGradF: number, callsHesse?: number) {
+function makeMessage(
+  name: string,
+  x_m: Point,
+  f: (point: Point) => number,
+  callsF: number,
+  callsGradF: number,
+  callsHesse?: number
+): string {
   const precision = 4;
   const [x, y] = x_m;
   const message = [
@@ -105,7 +112,7 @@ function runLM() {
     return matrix;
   }
 
-  const f_memo = memoize(f);
+  const f_memo = memoize(f, (arg) => arg.toString());
 
   const gf_memo = memoize(gradf);
 
@@ -114,14 +121,12 @@ function runLM() {
   const x0 = new Point(1.1, 1.1);
 
   const params: LMParams = {
-    eps1: 0.001,
-    M: 1000,
-    mu0: 1,
+    eps1: 1e-4,
+    M: 1e3,
+    mu0: 1e7,
   };
 
   const x_m = lm(f_memo, gf_memo, hesse_memo, x0, params)
-
-  // console.log(hesse_memo.cache);
 
   return makeMessage('leveberg-marquardt', x_m, f, f_memo.cache.size, gf_memo.cache.size, hesse_memo.cache.size);
 }

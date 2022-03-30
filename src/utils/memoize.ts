@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-export function memoize<T>(fn: (...args: T[]) => any, resolver?: (...args: T[]) => any) {
+export function memoize<T>(
+  fn: (...args: T[]) => any,
+  resolver?: (...args: T[]) => any) {
   const cache = new Map();
   const memoized = function (this: any, ...args: T[]) {
     const resolve = resolver ?? JSON.stringify

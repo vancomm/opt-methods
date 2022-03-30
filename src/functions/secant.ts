@@ -1,4 +1,8 @@
-export function secant(df: (x: number) => number, eps: number, interval: [number, number]): number {
+export function secant(
+  df: (x: number) => number,
+  eps: number,
+  interval: [number, number]
+): number {
   const [a, b] = interval;
   if (df(a) * df(b) < 0) {
     const x_k = a - (df(a) / (df(a) - df(b))) * (a - b);

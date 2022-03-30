@@ -16,26 +16,22 @@ export function lm(
 ): Point {
   const { eps1, M, mu0 } = params;
 
-  function iter1(xk: Point, mu: number, k: number): Point {
+  function iter1(xk: Point, muk: number, k: number): Point {
     if (gradf(xk).norm < eps1 || k >= M) return xk;
-    return iter2(xk, mu, k);
+    return iter2(xk, muk, k);
   }
 
-  function iter2(xk: Point, mu: number, k: number): Point {
-    const dk = hesse(xk)
-      .add(SquareMatrix.Identity(2)
-      .multiplyByScalar(mu))
+  function iter2(xk: Point, muk: number, k: number): Point {
+    const Hk = hesse(xk);
+    const I = SquareMatrix.Identity(Hk.dim);
+    const dk = Hk
+      .add(I.multiplyByScalar(muk))
       .inverse()
       .multiplyByVector(gradf(xk));
-    
     const xk_next = xk.subtractVector(dk);
-    if (f(xk_next) < f(xk)) return iter1(xk_next, mu / 2, k + 1);
-    return iter2(xk, 2 * mu, k);
+    if (f(xk) > f(xk_next)) return iter1(xk_next, muk / 2, k + 1);
+    return iter2(xk, muk * 2, k);
   }
 
-  function start(xk: Point, mu: number, k: number): Point {
-    return iter1(xk, mu, k);
-  }
-
-  return start(x0, mu0, 0);
+  return iter1(x0, mu0, 0);
 }
