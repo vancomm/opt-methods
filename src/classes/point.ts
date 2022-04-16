@@ -3,6 +3,13 @@ import { Iterable } from './iterable.js';
 import { Vector } from './vector.js';
 
 export class Point extends Iterable<number> {
+  static AddVector(point: Point, vector: Vector): Point {
+    if (vector.length !== 2) throw new Error('Invalid argument!');
+    const [x, y] = point;
+    const [dx, dy] = vector;
+    return new Point(x + dx, y + dy);
+  }
+
   static SubtractPoint(minuend: Point, subtrahend: Point): Vector {
     const [x1, y1] = minuend;
     const [x2, y2] = subtrahend;
@@ -22,6 +29,10 @@ export class Point extends Iterable<number> {
 
   constructor(x: number, y: number) {
     super([x, y]);
+  }
+
+  addVector(vector: Vector): Point {
+    return Point.AddVector(this, vector);
   }
 
   subtractPoint(point: Point): Vector {

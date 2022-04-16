@@ -1,7 +1,17 @@
 import { Vector } from './vector.js';
 import { Iterable } from './iterable.js';
+import { SquareMatrix } from './square-matrix.js';
 
 export class Matrix extends Iterable<Vector> {
+  static Row(vector: Vector): Matrix {
+    return new Matrix([vector]);
+  }
+
+  static Column(vector: Vector): Matrix {
+    const vectors = [...vector].map((value) => new Vector([value]));
+    return new Matrix(vectors);
+  }
+
   static Map(
     matrix: Matrix,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -40,7 +50,16 @@ export class Matrix extends Iterable<Vector> {
   static MultiplyByVector(matrix: Matrix, vector: Vector): Vector {
     if (matrix.cols.length !== vector.length) throw new Error('Invalid argument!');
     return new Vector([...matrix]
-      .map((row, i) => row.multiply([...vector][i]).sum));
+      .map((row, i) => row.multiplyByScalar([...vector][i]).sum));
+  }
+
+  static MultiplyByMatrix(first: Matrix, second: Matrix) {
+    const rows = first.rows;
+    const cols = second.cols;
+    const vectors = rows.map((row) =>
+      new Vector(cols.map((col) => row.dotProduct(col)))
+    );
+    return new Matrix(vectors);
   }
 
   static RemoveRow(matrix: Matrix, rowNumber: number): Matrix {
@@ -91,6 +110,10 @@ export class Matrix extends Iterable<Vector> {
 
   multiplyByVector(vector: Vector): Vector {
     return Matrix.MultiplyByVector(this, vector);
+  }
+
+  multiplyByMatrix(matrix: Matrix): Matrix {
+    return Matrix.MultiplyByMatrix(this, matrix);
   }
 
   removeRow(rowNumber: number): Matrix {

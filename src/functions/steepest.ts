@@ -1,5 +1,5 @@
 import { Point, Vector } from '../classes/index.js';
-import { parabola } from '../functions/index.js';
+import { parabola } from './parabola.js';
 
 export type Params = {
   eps1: number,
@@ -24,12 +24,12 @@ export function steepest(
     if (gradf(xk).norm < eps1 || k >= M) return xk;
 
     function phi(g: number): number {
-      return f(xk.subtractVector(gradf(xk).multiply(g)));
+      return f(xk.subtractVector(gradf(xk).multiplyByScalar(g)));
     }
 
     const gamma_star = parabola(phi, eps1, [gamma]);
 
-    const xk_next = xk.subtractVector(gradf(xk).multiply(gamma_star));
+    const xk_next = xk.subtractVector(gradf(xk).multiplyByScalar(gamma_star));
 
     if (xk_next.subtractPoint(xk).norm <= eps2 && Math.abs(f(xk_next) - f(xk)) <= eps2) {
       if (previous_k) return xk_next;

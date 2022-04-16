@@ -21,7 +21,7 @@ export function descent(
     if (gradf(xk).norm < eps1 || k >= M) return xk;
 
     function get_x_next(g: number): Point {
-      const xk_next = xk.subtractVector(gradf(xk).multiply(g));
+      const xk_next = xk.subtractVector(gradf(xk).multiplyByScalar(g));
       if (f(xk_next) - f(xk) >= 0) return get_x_next(g / 2);
       return xk_next;
     }

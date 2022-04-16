@@ -11,3 +11,7 @@ export { secant } from './secant.js';
 export { descent, Params as DescentParams } from './descent.js';
 export { steepest, Params as SteepestParams } from './steepest.js';
 export { lm, Params as LMParams } from './lm.js';
+
+// lab 4
+export { pr } from './pr.js';
+export { dfp } from './dfp.js';
