@@ -1,5 +1,5 @@
 /* eslint-disable no-use-before-define */
-import { Point, Vector, SquareMatrix } from '../classes/index.js';
+import { Point, Vector, Matrix } from '../classes/index.js';
 
 export type Params = {
   eps1: number,
@@ -10,7 +10,7 @@ export type Params = {
 export function lm(
   f: (point: Point) => number,
   gradf: (point: Point) => Vector,
-  hesse: (point: Point) => SquareMatrix,
+  hesse: (point: Point) => Matrix,
   x0: Point,
   params: Params,
 ): Point {
@@ -23,7 +23,7 @@ export function lm(
 
   function iter2(xk: Point, muk: number, k: number): Point {
     const Hk = hesse(xk);
-    const I = SquareMatrix.Identity(Hk.dim);
+    const I = Matrix.Identity(Hk.dim);
     const dk = Hk
       .add(I.multiplyByScalar(muk))
       .inverse()

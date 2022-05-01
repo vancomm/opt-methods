@@ -27,7 +27,4 @@ export class Point extends Iterable<number> {
     return new Point(x - dx, y - dy);
   }
 
-  toString(): string {
-    return `(${[...this].join(', ')})`;
-  }
 }

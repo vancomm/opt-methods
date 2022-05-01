@@ -1,4 +1,4 @@
-import { Point, Vector, Matrix, SquareMatrix } from '../classes/index.js';
+import { Point, Vector, Matrix } from '../classes/index.js';
 import { quasinewton } from './quasinewton.js';
 
 export function dfp(
@@ -14,8 +14,8 @@ export function dfp(
 		const dyk_row = dyk.toRow();
 		const dyk_col = dyk.toColumn();
 
-		const num1 = Matrix.MultiplyByMatrix(dxk_col, dxk_row);
-		const den1 = Matrix.MultiplyByMatrix(dxk_row, dyk_col).at(0, 0);
+		const num1 = dxk_col.multiplyByMatrix(dxk_row);
+		const den1 = dxk_row.multiplyByMatrix(dyk_col).toNumber();
 		const frac1 = num1.multiplyByScalar(1 / den1);
 
 		const num2 = Hk

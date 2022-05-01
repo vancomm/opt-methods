@@ -3,7 +3,7 @@ import {
   steepest, SteepestParams,
   lm, LMParams,
 } from './functions/index.js';
-import { Point, Vector, SquareMatrix } from './classes/index.js';
+import { Point, Vector, Matrix } from './classes/index.js';
 import { memoize, toPrecision } from './utils/index.js';
 
 function makeMessage(
@@ -100,12 +100,12 @@ function runLM() {
     return new Vector(dfdx(x, y), dfdy(x, y));
   }
 
-  function hesse(point: Point): SquareMatrix {
+  function hesse(point: Point): Matrix {
     const dfdfdxdy = (x: number, y: number): number => -4 * x - 400 * y;
     const dfdfdxdx = (x: number, y: number): number => 12 * (x ** 2) - 4 * y + 200;
     const dfdfdydy = (x: number, y: number): number => -400 * x + 1200 * (y ** 2) + 200;
     const [x, y] = point;
-    const matrix = new SquareMatrix(
+    const matrix = new Matrix(
       new Vector(dfdfdxdx(x, y), dfdfdxdy(x, y)),
       new Vector(dfdfdxdy(x, y), dfdfdydy(x, y)),
     );
@@ -136,5 +136,3 @@ export function run() {
   const results = [runDescent, runSteepest, runLM].map((run) => run());
   console.log(results.join('\n\n'));
 }
-
-run();

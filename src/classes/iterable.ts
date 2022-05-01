@@ -5,8 +5,16 @@ export class Iterable<T> {
     this._values = values;
   }
 
+  map(callbackfn: (value: T, index: number, array: T[]) => T, thisArg?: any): Iterable<T> {
+    const values = [...this].map(callbackfn, thisArg);
+    return new Iterable<T>(...values);
+  }
+
+  toString(): string {
+    return `(${[...this].join(', ')})`;
+  }
+
   *[Symbol.iterator]() {
-    // eslint-disable-next-line no-restricted-syntax
     for (const i of this._values) {
       yield i;
     }

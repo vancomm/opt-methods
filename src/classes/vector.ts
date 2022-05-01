@@ -7,11 +7,11 @@ export class Vector extends Iterable<number> {
   }
 
   get sum(): number {
-    return [...this].reduce((sum, add) => sum + add, 0);
+    return this.reduce((sum, add) => sum + add, 0);
   }
 
   get length() {
-    return Math.sqrt([...this].reduce((sum, value) => sum + value ** 2, 0));
+    return Math.sqrt(this.reduce((sum, value) => sum + value ** 2, 0));
   }
 
   at(index: number) {
@@ -66,7 +66,4 @@ export class Vector extends Iterable<number> {
     return new Matrix(...vectors);
   }
 
-  toString(): string {
-    return `(${[...this].join(', ')})`;
-  }
 }
