@@ -23,6 +23,9 @@ const runFunc = (minFunc: MinFunc) => {
   ].join('\n');
 };
 
-const results = [midpoint, secant].map(runFunc).join('\n\n');
 
-console.log(results);
+export function run() {
+  const results = [midpoint, secant].map(runFunc).join('\n\n');
+
+  console.log(results);
+}

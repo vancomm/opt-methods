@@ -38,10 +38,10 @@ function gradf(point: Point): Vector {
 function runPR() {
 	const f_memo = memoize(f, (arg) => arg.toString());
 	const gf_memo = memoize(gradf);
-	const x0 = new Point(2, 3);
-	const [eps1, eps2] = [1e-3, 1e-3];
+	const x0 = new Point(1, 2);
+	const [eps1, eps2] = [1e-5, 1e-5];
 	const M = 1000;
-	let x_m = pr(f_memo, gf_memo, x0, eps1, eps2, M);
+	const x_m = pr(f_memo, gf_memo, x0, eps1, eps2, M);
 	return makeMessage('polack-ribiere', x_m, f, f_memo.cache.size, gf_memo.cache.size);
 }
 
@@ -50,9 +50,12 @@ function runDFP() {
 	const gf_memo = memoize(gradf);
 	const x0 = new Point(2, 3);
 	const eps = 1e-3;
-	let x_m = dfp(f_memo, gf_memo, x0, eps);
+	const x_m = dfp(f_memo, gf_memo, x0, eps);
 	return makeMessage('davidson-fletcher-powell', x_m, f, f_memo.cache.size, gf_memo.cache.size);
 }
 
-const results = [runPR, runDFP].map((run) => run());
-console.log(results.join('\n\n')); 
+export function run() {
+	console.log(runPR());
+	console.log();
+	console.log(runDFP());
+}

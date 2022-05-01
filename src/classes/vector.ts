@@ -10,18 +10,22 @@ export class Vector extends Iterable<number> {
     return [...vector].reduce(callbackfn, initialValue);
   }
 
+  static Normalize(vector: Vector) {
+    return vector.multiplyByScalar(1 / vector.length);
+  }
+
   static Add(augend: Vector, addend: Vector): Vector {
-    if (augend.length !== addend.length) throw new Error('Invalid argument!');
+    if (augend.count !== addend.count) throw new Error('Invalid argument!');
     return augend.map((value, i) => value + addend.at(i));
   }
 
   static Subtract(minuend: Vector, subtrahend: Vector): Vector {
-    if (minuend.length !== subtrahend.length) throw new Error('Invalid argument!');
+    if (minuend.count !== subtrahend.count) throw new Error('Invalid argument!');
     return minuend.map((value, i) => value - subtrahend.at(i));
   }
 
   static DotProduct(vector1: Vector, vector2: Vector) {
-    if (vector1.length !== vector2.length) throw new Error('Invalid argument!');
+    if (vector1.count !== vector2.count) throw new Error('Invalid argument!');
     return vector1
       .map((value, i) => value * vector2.at(i))
       .reduce((sum, add) => sum + add, 0);
@@ -40,7 +44,7 @@ export class Vector extends Iterable<number> {
     return [...vector].join(', ');
   }
 
-  get length(): number {
+  get count(): number {
     return [...this].length;
   }
 
@@ -48,8 +52,8 @@ export class Vector extends Iterable<number> {
     return [...this].reduce((sum, add) => sum + add, 0);
   }
 
-  get norm() {
-    return Math.sqrt([...this].map((value) => value ** 2).reduce((sum, value) => sum + value, 0));
+  get length() {
+    return Math.sqrt([...this].reduce((sum, value) => sum + value ** 2, 0));
   }
 
   at(index: number) {
@@ -62,6 +66,10 @@ export class Vector extends Iterable<number> {
 
   reduce(callbackfn: (previousValue: number, currentValue: number, currentIndex: number, array: number[]) => number, initialValue?: any) {
     return Vector.Reduce(this, callbackfn, initialValue);
+  }
+
+  normalize() {
+    return Vector.Normalize(this);
   }
 
   add(vector: Vector): Vector {

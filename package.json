@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "bin": {
+    "opt-labs": "bin/opt-labs.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -24,5 +27,8 @@
     "eslint": "^8.11.0",
     "eslint-plugin-import": "^2.25.4",
     "tsutils": "^3.21.0"
+  },
+  "dependencies": {
+    "commander": "^9.2.0"
   }
 }

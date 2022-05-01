@@ -21,7 +21,7 @@ export function steepest(
   let previous_k = false;
 
   function iter(xk: Point, k: number): Point {
-    if (gradf(xk).norm < eps1 || k >= M) return xk;
+    if (gradf(xk).length < eps1 || k >= M) return xk;
 
     function phi(g: number): number {
       return f(xk.subtractVector(gradf(xk).multiplyByScalar(g)));
@@ -31,7 +31,7 @@ export function steepest(
 
     const xk_next = xk.subtractVector(gradf(xk).multiplyByScalar(gamma_star));
 
-    if (xk_next.subtractPoint(xk).norm <= eps2 && Math.abs(f(xk_next) - f(xk)) <= eps2) {
+    if (xk_next.subtractPoint(xk).length <= eps2 && Math.abs(f(xk_next) - f(xk)) <= eps2) {
       if (previous_k) return xk_next;
       previous_k = true;
       return iter(xk_next, k + 1);

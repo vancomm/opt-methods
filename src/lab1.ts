@@ -26,6 +26,9 @@ function runFunc(minFunc: MinFunc) {
   ].join('\n');
 }
 
-const results = [brute, bisect, parabola].map(runFunc).join('\n\n');
 
-console.log(results);
+export function run() {
+  const results = [brute, bisect, parabola].map(runFunc).join('\n\n');
+
+  console.log(results);
+}

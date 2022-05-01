@@ -13,11 +13,11 @@ export function quasinewton(
 
 		const f_gamma = (gamma: number) => f(xk.addVector(dk.multiplyByScalar(gamma)));
 
-		const gamma_k = minimize(0, f_gamma);
+		const gamma_k = minimize(f_gamma, 0);
 
 		const xk_next = xk.addVector(dk.multiplyByScalar(gamma_k));
 
-		if (gradf(xk_next).norm < eps) return xk_next;
+		if (gradf(xk_next).length < eps) return xk_next;
 
 		const delta_xk = dk.multiplyByScalar(gamma_k);
 		const delta_yk = gradf(xk_next).subtract(gradf(xk));

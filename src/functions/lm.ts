@@ -17,7 +17,7 @@ export function lm(
   const { eps1, M, mu0 } = params;
 
   function iter1(xk: Point, muk: number, k: number): Point {
-    if (gradf(xk).norm < eps1 || k >= M) return xk;
+    if (gradf(xk).length < eps1 || k >= M) return xk;
     return iter2(xk, muk, k);
   }
 

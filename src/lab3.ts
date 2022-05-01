@@ -118,7 +118,7 @@ function runLM() {
 
   const hesse_memo = memoize(hesse, (arg) => arg.toString());
 
-  const x0 = new Point(1.1, 1.1);
+  const x0 = new Point(2, 7);
 
   const params: LMParams = {
     eps1: 1e-4,
@@ -131,5 +131,8 @@ function runLM() {
   return makeMessage('leveberg-marquardt', x_m, f, f_memo.cache.size, gf_memo.cache.size, hesse_memo.cache.size);
 }
 
-const results = [runDescent, runSteepest, runLM].map((run) => run());
-console.log(results.join('\n\n'));  
+
+export function run() {
+  const results = [runDescent, runSteepest, runLM].map((run) => run());
+  console.log(results.join('\n\n'));
+}

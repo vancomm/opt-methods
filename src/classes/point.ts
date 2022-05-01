@@ -4,7 +4,7 @@ import { Vector } from './vector.js';
 
 export class Point extends Iterable<number> {
   static AddVector(point: Point, vector: Vector): Point {
-    if (vector.length !== 2) throw new Error('Invalid argument!');
+    if (vector.count !== 2) throw new Error('Invalid argument!');
     const [x, y] = point;
     const [dx, dy] = vector;
     return new Point(x + dx, y + dy);
@@ -17,7 +17,7 @@ export class Point extends Iterable<number> {
   }
 
   static SubtractVector(point: Point, vector: Vector): Point {
-    if (vector.length !== 2) throw new Error('Invalid argument!');
+    if (vector.count !== 2) throw new Error('Invalid argument!');
     const [x, y] = point;
     const [dx, dy] = vector;
     return new Point(x - dx, y - dy);

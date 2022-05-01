@@ -48,7 +48,7 @@ export class Matrix extends Iterable<Vector> {
   }
 
   static MultiplyByVector(matrix: Matrix, vector: Vector): Vector {
-    if (matrix.cols.length !== vector.length) throw new Error('Invalid argument!');
+    if (matrix.cols.length !== vector.count) throw new Error('Invalid argument!');
     return new Vector([...matrix]
       .map((row, i) => row.multiplyByScalar([...vector][i]).sum));
   }

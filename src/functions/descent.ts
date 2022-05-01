@@ -18,7 +18,7 @@ export function descent(
   } = params;
 
   function iter(xk: Point, k: number): Point {
-    if (gradf(xk).norm < eps1 || k >= M) return xk;
+    if (gradf(xk).length < eps1 || k >= M) return xk;
 
     function get_x_next(g: number): Point {
       const xk_next = xk.subtractVector(gradf(xk).multiplyByScalar(g));
@@ -28,7 +28,7 @@ export function descent(
 
     const xk_next = get_x_next(gamma);
 
-    if (xk_next.subtractPoint(xk).norm <= eps2 && Math.abs(f(xk_next) - f(xk)) <= eps2) {
+    if (xk_next.subtractPoint(xk).length <= eps2 && Math.abs(f(xk_next) - f(xk)) <= eps2) {
       return xk_next;
     }
     return iter(xk_next, k + 1);

@@ -13,5 +13,9 @@ export { steepest, Params as SteepestParams } from './steepest.js';
 export { lm, Params as LMParams } from './lm.js';
 
 // lab 4
-export { pr } from './pr.js';
+export { pr } from './polack-ribiere.js';
 export { dfp } from './dfp.js';
+
+// lab 5
+export { coordinate } from './coordinate.js';
+export { randomDescent } from './random-descent.js';
