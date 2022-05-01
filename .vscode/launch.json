@@ -11,7 +11,7 @@
 			"skipFiles": [
 				"<node_internals>/**"
 			],
-			"program": "${workspaceFolder}/built/functions/pattern.js",
+			"program": "${workspaceFolder}/built/lab3.js",
 			"outFiles": [
 				"${workspaceFolder}/**/*.js"
 			]

@@ -35,7 +35,7 @@ function runDescent() {
 
   function gradf(point: Point): Vector {
     const [x, y] = point;
-    return new Vector([(6 * x + y - 1), (x + 4 * y - 4)]);
+    return new Vector((6 * x + y - 1), (x + 4 * y - 4));
   }
 
   const f_memo = memoize(f);
@@ -64,7 +64,7 @@ function runSteepest() {
 
   function gradf(point: Point): Vector {
     const [x, y] = point;
-    return new Vector([(6 * x + y - 1), (x + 4 * y - 4)]);
+    return new Vector((6 * x + y - 1), (x + 4 * y - 4));
   }
 
   const f_memo = memoize(f);
@@ -97,7 +97,7 @@ function runLM() {
     const dfdy = (x: number, y: number)
       : number => -2 * (x ** 2) - 400 * y * (x - y ** 2) + 2 * y;
     const [x, y] = point;
-    return new Vector([dfdx(x, y), dfdy(x, y)]);
+    return new Vector(dfdx(x, y), dfdy(x, y));
   }
 
   function hesse(point: Point): SquareMatrix {
@@ -105,10 +105,10 @@ function runLM() {
     const dfdfdxdx = (x: number, y: number): number => 12 * (x ** 2) - 4 * y + 200;
     const dfdfdydy = (x: number, y: number): number => -400 * x + 1200 * (y ** 2) + 200;
     const [x, y] = point;
-    const matrix = new SquareMatrix([
-      new Vector([dfdfdxdx(x, y), dfdfdxdy(x, y)]),
-      new Vector([dfdfdxdy(x, y), dfdfdydy(x, y)]),
-    ]);
+    const matrix = new SquareMatrix(
+      new Vector(dfdfdxdx(x, y), dfdfdxdy(x, y)),
+      new Vector(dfdfdxdy(x, y), dfdfdydy(x, y)),
+    );
     return matrix;
   }
 
@@ -136,3 +136,5 @@ export function run() {
   const results = [runDescent, runSteepest, runLM].map((run) => run());
   console.log(results.join('\n\n'));
 }
+
+run();

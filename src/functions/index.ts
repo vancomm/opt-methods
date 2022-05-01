@@ -19,3 +19,4 @@ export { dfp } from './dfp.js';
 // lab 5
 export { coordinate } from './coordinate.js';
 export { randomDescent } from './random-descent.js';
+export { hj } from './hooke-jeeves.js';

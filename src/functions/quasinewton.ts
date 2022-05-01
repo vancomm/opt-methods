@@ -27,10 +27,10 @@ export function quasinewton(
 		return iter(xk_next, Hk_next)
 	}
 
-	const H0 = new Matrix([
-		new Vector([1, 0]),
-		new Vector([0, 1])
-	]);
+	const H0 = new Matrix(
+		new Vector(1, 0),
+		new Vector(0, 1)
+	);
 
 	return iter(x0, H0);
 }

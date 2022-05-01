@@ -32,7 +32,7 @@ function gradf(point: Point): Vector {
 	const dfdy = (x: number, y: number)
 		: number => -2 * (x ** 2) - 400 * y * (x - y ** 2) + 2 * y;
 	const [x, y] = point;
-	return new Vector([dfdx(x, y), dfdy(x, y)]);
+	return new Vector(dfdx(x, y), dfdy(x, y));
 }
 
 function runPR() {

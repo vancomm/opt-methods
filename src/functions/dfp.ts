@@ -8,11 +8,11 @@ export function dfp(
 	eps: number): Point {
 
 	function calcHkNext(Hk: Matrix, dxk: Vector, dyk: Vector): Matrix {
-		const dxk_row = Matrix.Row(dxk);
-		const dxk_col = Matrix.Column(dxk);
+		const dxk_row = dxk.toRow();
+		const dxk_col = dxk.toColumn();
 
-		const dyk_row = Matrix.Row(dyk);
-		const dyk_col = Matrix.Column(dyk);
+		const dyk_row = dyk.toRow();
+		const dyk_col = dyk.toColumn();
 
 		const num1 = Matrix.MultiplyByMatrix(dxk_col, dxk_row);
 		const den1 = Matrix.MultiplyByMatrix(dxk_row, dyk_col).at(0, 0);

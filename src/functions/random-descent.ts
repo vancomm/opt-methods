@@ -2,7 +2,7 @@ import { Point, Vector } from "../classes/index.js";
 import { range, random } from "../utils/index.js";
 
 function getRandomOrt() {
-	const randomVector = new Vector(range(2).map(() => random(-1, 1)));
+	const randomVector = new Vector(...range(2).map(() => random(-1, 1)));
 	return randomVector.normalize();
 }
 

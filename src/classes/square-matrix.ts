@@ -5,28 +5,14 @@ import { Vector } from './vector.js';
 export class SquareMatrix extends Matrix {
   static Identity(dim: number): SquareMatrix {
     return new SquareMatrix(
-      range(dim).map(() => new Vector(
-        range(dim).map(() => 0))))
+      ...range(dim).map(() => new Vector(
+        ...range(dim).map(() => 0))))
       .map((_, i, j) => i === j ? 1 : 0);
-  }
-
-  static Map(
-    matrix: Matrix,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    callbackfn: (value: number, rowNum: number, colNum: number) => number, thisArg?: any
-  ): SquareMatrix {
-    return new SquareMatrix([...super.Map(matrix, callbackfn, thisArg)]);
-  }
-
-  static Add(...addends: SquareMatrix[]): SquareMatrix {
-    const [first, second] = addends;
-    if (first.dim !== second.dim) throw new Error('Invalid argument!');
-    return new SquareMatrix([...super.Add(...addends)]);
   }
 
   static Transpose(matrix: SquareMatrix): SquareMatrix {
     const transposed = super.Transpose(matrix);
-    return new SquareMatrix([...transposed]);
+    return new SquareMatrix(...transposed);
   }
 
   static Determinant(matrix: SquareMatrix): number {
@@ -51,19 +37,19 @@ export class SquareMatrix extends Matrix {
   }
 
   static MultiplyByScalar(matrix: SquareMatrix, factor: number): SquareMatrix {
-    return new SquareMatrix([...super.MultiplyByScalar(matrix, factor)]);
+    return new SquareMatrix(...super.MultiplyByScalar(matrix, factor));
   }
 
   static MinorMatrix(matrix: SquareMatrix): SquareMatrix {
-    const minorMatrix = new SquareMatrix([...matrix]
-      .map((vector, rowNum) => new Vector([...vector]
+    const minorMatrix = new SquareMatrix(...[...matrix]
+      .map((vector, rowNum) => new Vector(...[...vector]
         .map((_, colNum) => matrix.minor(rowNum, colNum)))));
     return minorMatrix;
   }
 
   static AlgComps(matrix: SquareMatrix): SquareMatrix {
-    return new SquareMatrix([...matrix]
-      .map((vector, rowNum) => new Vector([...vector]
+    return new SquareMatrix(...[...matrix]
+      .map((vector, rowNum) => new Vector(...[...vector]
         .map((_, colNum) => matrix.algComp(rowNum, colNum)))));
   }
 
@@ -81,13 +67,13 @@ export class SquareMatrix extends Matrix {
     return super.ToString(matrix, separator);
   }
 
-  constructor(vectors: Vector[]) {
-    super(vectors);
+  constructor(...vectors: Vector[]) {
+    super(...vectors);
     if (this.rows.length !== this.cols.length) throw new Error('Invalid argument!');
   }
 
   removeRowAndColumn(rowNum: number, colNum: number) {
-    return new SquareMatrix([...this.removeRow(rowNum).removeColumn(colNum)]);
+    return new SquareMatrix(...this.removeRow(rowNum).removeColumn(colNum));
   }
 
   get identity(): SquareMatrix {
@@ -102,16 +88,19 @@ export class SquareMatrix extends Matrix {
     return SquareMatrix.Determinant(this);
   }
 
-  map(
-    callbackfn: (value: number, rowNum: number, colNum: number) => number,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    thisArg?: any
-  ): SquareMatrix {
-    return SquareMatrix.Map(this, callbackfn, thisArg);
+  map(callbackfn: (value: number, rowNum: number, colNum: number) => number, thisArg?: any): SquareMatrix {
+    const values = [...this]
+      .map((row, rowNum) => new Vector(...row
+        .map((value, colNum) => callbackfn(value, rowNum, colNum), thisArg)));
+    return new SquareMatrix(...values);
   }
 
-  add(...addend: SquareMatrix[]): SquareMatrix {
-    return SquareMatrix.Add(this, ...addend);
+  add(...addends: SquareMatrix[]): SquareMatrix {
+    const [first, rest] = addends;
+    if (this.dim !== first.dim) throw new Error('Invalid argument!');
+    const onePlusOne = this.map((value, i, j) => value + first.at(i, j));
+    if (rest) return this.add(rest);
+    return onePlusOne;
   }
 
   transpose(): SquareMatrix {
