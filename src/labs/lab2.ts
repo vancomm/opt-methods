@@ -1,5 +1,5 @@
-import { midpoint, secant } from './functions/index.js';
-import { memoize } from './utils/index.js';
+import { midpoint, secant } from '../functions/index.js';
+import { memoize } from '../utils/index.js';
 
 type Func = (x: number) => number
 type MinFunc = (f: Func, eps: number, interval: [number, number]) => number

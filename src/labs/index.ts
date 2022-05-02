@@ -4,4 +4,4 @@ import { run as run3 } from './lab3.js';
 import { run as run4 } from './lab4.js';
 import { run as run5 } from './lab5.js';
 
-export const exports = [run1, run2, run3, run4, run5];
+export const labs = [run1, run2, run3, run4, run5];

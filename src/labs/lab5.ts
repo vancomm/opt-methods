@@ -1,6 +1,6 @@
-import { randomDescent, hj, nm } from './functions/index.js';
-import { Matrix, Point, Vector } from './classes/index.js';
-import { memoize, toPrecision } from './utils/index.js';
+import { randomDescent, hj, nm } from '../functions/index.js';
+import { Matrix, Point, Vector } from '../classes/index.js';
+import { memoize, toPrecision } from '../utils/index.js';
 
 function makeMessage(
 	name: string,

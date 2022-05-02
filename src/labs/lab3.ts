@@ -2,9 +2,9 @@ import {
   descent, DescentParams,
   steepest, SteepestParams,
   lm, LMParams,
-} from './functions/index.js';
-import { Point, Vector, Matrix } from './classes/index.js';
-import { memoize, toPrecision } from './utils/index.js';
+} from '../functions/index.js';
+import { Point, Vector, Matrix } from '../classes/index.js';
+import { memoize, toPrecision } from '../utils/index.js';
 
 function makeMessage(
   name: string,

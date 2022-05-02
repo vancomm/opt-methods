@@ -1,6 +1,6 @@
-import { pr, dfp } from './functions/index.js';
-import { Point, Vector } from './classes/index.js';
-import { memoize, toPrecision } from './utils/index.js';
+import { pr, dfp } from '../functions/index.js';
+import { Point, Vector } from '../classes/index.js';
+import { memoize, toPrecision } from '../utils/index.js';
 
 function makeMessage(
 	name: string,
