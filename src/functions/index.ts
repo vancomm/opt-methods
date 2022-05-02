@@ -20,3 +20,4 @@ export { dfp } from './dfp.js';
 export { coordinate } from './coordinate.js';
 export { randomDescent } from './random-descent.js';
 export { hj } from './hooke-jeeves.js';
+export { nm } from './nelder-mead.js';

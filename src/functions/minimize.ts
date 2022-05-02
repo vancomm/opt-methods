@@ -1,4 +1,4 @@
-import { get_x_min } from "../utils/index.js";
+import { min } from "../utils/index.js";
 
 export function minimize(f: (x: number) => number, x0: number, eps = 1e-4): number {
 	const dx = eps * 10;
@@ -18,11 +18,11 @@ export function minimize(f: (x: number) => number, x0: number, eps = 1e-4): numb
 	let x_m, x_bar, x: number;
 
 	do {
-		x_m = get_x_min(f, x1, x2, x3);
+		x_m = min(f, x1, x2, x3);
 
 		x_bar = get_x_bar(x1, x2, x3);
 
-		x = get_x_min(f, x_m, x_bar);
+		x = min(f, x_m, x_bar);
 
 		[x1, x2, x3] = [x - dx, x, x + dx];
 	} while (Math.abs(f(x_m) - f(x_bar)) <= eps && Math.abs(x_m - x_bar) <= eps);

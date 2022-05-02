@@ -1,4 +1,4 @@
-import { randomDescent, hj } from './functions/index.js';
+import { randomDescent, hj, nm } from './functions/index.js';
 import { Matrix, Point, Vector } from './classes/index.js';
 import { memoize, toPrecision } from './utils/index.js';
 
@@ -38,14 +38,21 @@ function runRandomDescent() {
 	console.log(makeMessage("random descent", x_min, f_memo, f_memo.cache.size));
 }
 
-function runHJ() {
+// function runHJ() {
+// 	const f_memo = memoize(f, (arg) => arg.toString());
+// 	const x_min = hj(f_memo, x0, 0.9, 1, 1e-4, 1e4);
+// 	console.log(makeMessage("hooke-jeeves", x_min, f_memo, f_memo.cache.size));
+// }
+
+function runNM() {
 	const f_memo = memoize(f, (arg) => arg.toString());
-	const x_min = hj(f_memo, x0, 0.9, 1, 1e-4, 1e4);
-	console.log(makeMessage("hooke-jeeves", x_min, f_memo, f_memo.cache.size));
+	const x_min = nm(f_memo, x0, 4, 1e-6);
+	console.log(makeMessage("nedler-mead", x_min, f_memo, f_memo.cache.size));
 }
 
 export function run() {
 	// runCoordinate();
 	runRandomDescent();
-	runHJ();
+	// runHJ();
+	runNM();
 }

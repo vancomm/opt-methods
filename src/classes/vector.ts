@@ -1,4 +1,5 @@
 import { Iterable } from './iterable.js';
+import { Point } from './point.js';
 import { Matrix } from './matrix.js';
 
 export class Vector extends Iterable<number> {
@@ -55,6 +56,10 @@ export class Vector extends Iterable<number> {
     return this
       .map((value, i) => value * vector.at(i))
       .reduce((sum, add) => sum + add, 0);
+  }
+
+  toPoint(): Point {
+    return new Point(...this);
   }
 
   toRow(): Matrix {
