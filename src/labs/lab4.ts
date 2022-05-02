@@ -21,16 +21,14 @@ function makeMessage(
 	return message;
 }
 
-function f(x: Point): number {
-	const [x1, x2] = x;
-	return 100 * (x1 - x2 ** 2) ** 2 + (x1 ** 2 - x2) ** 2;
+function f(p: Point): number {
+	const [x, y] = p;
+	return x ** 4 - x * y + y ** 4 + 3 * x - 2 * y + 1;
 }
 
 function gradf(point: Point): Vector {
-	const dfdx = (x: number, y: number)
-		: number => (4 * x * (x ** 2 - y) + 200 * x - 200 * (y ** 2));
-	const dfdy = (x: number, y: number)
-		: number => -2 * (x ** 2) - 400 * y * (x - y ** 2) + 2 * y;
+	const dfdx = (x: number, y: number): number => 4 * x ** 3 - y + 3;
+	const dfdy = (x: number, y: number): number => -x + 4 * y ** 3 - 2;
 	const [x, y] = point;
 	return new Vector(dfdx(x, y), dfdy(x, y));
 }

@@ -25,10 +25,8 @@ export function dfp(
 		const den2 = dyk_row
 			.multiplyByMatrix(Hk)
 			.multiplyByMatrix(dyk_col)
-			.at(0, 0);
+			.toNumber();
 		const frac2 = num2.multiplyByScalar(1 / den2);
-
-		// console.log(Hk.add(frac1).add(frac2.multiplyByScalar(-1)).toString());
 
 		return Hk.add(frac1).add(frac2.multiplyByScalar(-1));
 	}

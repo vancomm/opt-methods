@@ -11,9 +11,9 @@ export function quasinewton(
 	function iter(xk: Point, Hk: Matrix): Point {
 		const dk = Hk.multiplyByScalar(-1).multiplyByVector(gradf(xk));
 
-		const f_gamma = (gamma: number) => f(xk.addVector(dk.multiplyByScalar(gamma)));
-
-		const gamma_k = minimize(f_gamma, 0);
+		const gamma_k = minimize(
+			(gamma: number) => f(xk.addVector(dk.multiplyByScalar(gamma))),
+			0);
 
 		const xk_next = xk.addVector(dk.multiplyByScalar(gamma_k));
 
@@ -27,10 +27,7 @@ export function quasinewton(
 		return iter(xk_next, Hk_next)
 	}
 
-	const H0 = new Matrix(
-		new Vector(1, 0),
-		new Vector(0, 1)
-	);
+	const H0 = Matrix.Identity(2);
 
 	return iter(x0, H0);
 }
