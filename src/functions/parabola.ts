@@ -1,4 +1,4 @@
-import { min } from '../utils/index.js';
+import { minArg } from '../utils/index.js';
 
 export function parabola(f: (x: number) => number, eps: number, interval: [number, number?]) {
   const [x0] = interval;
@@ -15,10 +15,10 @@ export function parabola(f: (x: number) => number, eps: number, interval: [numbe
   }
 
   function iter(x1: number, x2: number, x3: number): number {
-    const x_m = min(f, x1, x2, x3);
+    const x_m = minArg(f, x1, x2, x3);
     const x_bar = get_x_bar(x1, x2, x3);
 
-    const x = min(f, x_m, x_bar);
+    const x = minArg(f, x_m, x_bar);
 
     if (Math.abs(f(x_m) - f(x_bar)) <= eps1 && Math.abs(x_m - x_bar) <= eps2) {
       return x;

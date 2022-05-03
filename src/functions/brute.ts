@@ -1,4 +1,4 @@
-import { range, min } from '../utils/index.js';
+import { range, minArg } from '../utils/index.js';
 
 export function brute(f: (x: number) => number, eps: number, interval: [number, number]) {
   const [a, b] = interval;
@@ -8,5 +8,5 @@ export function brute(f: (x: number) => number, eps: number, interval: [number, 
 
   const x_arr = range(n + 1).map((i) => a + i * step);
 
-  return min(f, ...x_arr);
+  return minArg(f, ...x_arr);
 }

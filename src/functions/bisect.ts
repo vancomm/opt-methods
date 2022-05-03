@@ -1,4 +1,4 @@
-import { min } from '../utils/index.js';
+import { minArg } from '../utils/index.js';
 
 export function bisect(f: (x: number) => number, eps: number, interval: [number, number]): number {
   const [a, b] = interval;
@@ -8,7 +8,7 @@ export function bisect(f: (x: number) => number, eps: number, interval: [number,
   const x_1 = a + l / 4;
   const x_2 = b - l / 4;
 
-  if (l <= eps) return min(f, x_1, x_m, x_2);
+  if (l <= eps) return minArg(f, x_1, x_m, x_2);
 
   if (f(x_1) < f(x_m)) return bisect(f, eps, [a, x_m]);
 

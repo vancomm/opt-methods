@@ -3,11 +3,14 @@ import { Vector } from './vector.js';
 import { Iterable } from './iterable.js';
 
 export class Matrix extends Iterable<Vector> {
-  static Identity(dim: number): Matrix {
+  static Generate(width: number, height: number, callback: (row: number, col: number) => number): Matrix {
     return new Matrix(
-      ...range(dim).map(() => new Vector(
-        ...range(dim).map(() => 0))))
-      .mapDeep((_, i, j) => i === j ? 1 : 0);
+      ...range(height).map((_, j) => new Vector(
+        ...range(width).map((_, i) => callback(i, j)))));
+  }
+
+  static Identity(dim: number): Matrix {
+    return Matrix.Generate(dim, dim, (i, j) => Number(i === j))
   }
 
   get rows(): Vector[] {

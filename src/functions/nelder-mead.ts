@@ -1,5 +1,5 @@
 import { Point, Matrix } from "../classes/index.js";
-import { getCenter, max, min, replace } from "../utils/index.js";
+import { sum, maxArg, minArg, replace, getCenter } from "../utils/index.js";
 
 function generateSimplexVetrices(x0: Point, n: number, a: number): Point[] {
 	const r = a * (Math.sqrt(n + 1) - 1 + n) / (n * Math.SQRT2);
@@ -7,8 +7,7 @@ function generateSimplexVetrices(x0: Point, n: number, a: number): Point[] {
 
 	const points = Matrix.Identity(n)
 		.mapDeep((i) => i = (i === 1) ? r : s)
-		.rows
-		.map((v) => x0.addVector(v));
+		.rows.map((v) => x0.addVector(v));
 
 	return [x0, ...points];
 }
@@ -48,10 +47,10 @@ export function nm(
 	do {
 		y_arr = x_arr.map(f);
 
-		x_h = max(f, ...x_arr);
+		x_h = maxArg(f, ...x_arr);
 		y_h = f(x_h);
 
-		x_l = min(f, ...x_arr);
+		x_l = minArg(f, ...x_arr);
 		y_l = f(x_l);
 
 		x_bar = getCenter(...x_arr.filter((p) => p != x_h));
@@ -88,9 +87,9 @@ export function nm(
 			x_arr = replace(x_arr, x_star, (x) => x == x_h);
 		}
 
-		const testSumY = Math.sqrt((1 / n * y_arr.map((y) => (y - y_bar) ** 2).reduce((sum, add) => sum + add, 0)));
+		const testSumY = Math.sqrt((1 / n * sum(y_arr.map((y) => (y - y_bar) ** 2))));
 
-		const testSumX = Math.sqrt(x_arr.map((x) => x.subtractPoint(x_bar)).map((v) => v.dotProduct(v)).reduce((sum, add) => sum + add, 0));
+		const testSumX = Math.sqrt(sum(x_arr.map((x) => x.subtractPoint(x_bar)).map((v) => v.dotProduct(v))));
 
 		stop1 = testSumY <= eps;
 		stop2 = y_h - y_l <= eps;
