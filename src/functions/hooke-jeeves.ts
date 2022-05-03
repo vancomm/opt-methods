@@ -1,5 +1,5 @@
 import { Point, Vector } from "../classes/index.js";
-import { range, message } from "../utils/index.js";
+import { range } from "../utils/index.js";
 
 function print(h: number[], x: Point[], z: Point[]) {
 	console.log(`h: ${h.slice(1).join(', ')}`);
@@ -39,8 +39,6 @@ export function hj(
 	let i = 1;
 
 	do {
-		// print(h, x, z);
-
 		const zplus = z[i].addVector(getEi(i, n).multiplyByScalar(h[i]));
 		const zminus = z[i].subtractVector(getEi(i, n).multiplyByScalar(h[i]));
 
@@ -71,7 +69,6 @@ export function hj(
 		}, -1);
 
 		if (hmax < eps) {
-			// message('HJ: step too small!');
 			return x[k];
 		}
 
@@ -80,6 +77,6 @@ export function hj(
 		k++;
 		i = 1;
 	} while (k < M);
-	// message('HJ: ran out of iterations!')
+
 	return x[k];
 }

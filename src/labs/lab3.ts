@@ -1,8 +1,4 @@
-import {
-  descent, DescentParams,
-  steepest, SteepestParams,
-  lm, LMParams,
-} from '../functions/index.js';
+import { descent, steepest, lm } from '../functions/index.js';
 import { Point, Vector, Matrix } from '../classes/index.js';
 import { memoize, toPrecision } from '../utils/index.js';
 
@@ -27,60 +23,46 @@ function makeMessage(
   return message;
 }
 
+function f(point: Point): number {
+  const [x, y] = point;
+  return 3 * (x ** 2) + x * y + 2 * (y ** 2) - x - 4 * y;
+}
+
+function gradf(point: Point): Vector {
+  const [x, y] = point;
+  return new Vector((6 * x + y - 1), (x + 4 * y - 4));
+}
+
 function runDescent() {
-  function f(point: Point): number {
-    const [x, y] = point;
-    return 3 * (x ** 2) + x * y + 2 * (y ** 2) - x - 4 * y;
-  }
-
-  function gradf(point: Point): Vector {
-    const [x, y] = point;
-    return new Vector((6 * x + y - 1), (x + 4 * y - 4));
-  }
-
   const f_memo = memoize(f);
 
   const gf_memo = memoize(gradf);
 
   const x0: Point = new Point(2, 2);
 
-  const params: DescentParams = {
-    eps1: 0.0001,
-    eps2: 0.0001,
-    M: 1000,
-    gamma: 0.1,
-  };
+  const eps1 = 0.0001;
+  const eps2 = 0.0001;
+  const gamma = 0.1;
+  const M = 1000;
 
-  const x_m = descent(f_memo, gf_memo, x0, params);
+  const x_m = descent(f_memo, gf_memo, x0, eps1, eps2, gamma, M);
 
   return makeMessage('descent', x_m, f, f_memo.cache.size, gf_memo.cache.size);
 }
 
 function runSteepest() {
-  function f(point: Point): number {
-    const [x, y] = point;
-    return 3 * (x ** 2) + x * y + 2 * (y ** 2) - x - 4 * y;
-  }
-
-  function gradf(point: Point): Vector {
-    const [x, y] = point;
-    return new Vector((6 * x + y - 1), (x + 4 * y - 4));
-  }
-
   const f_memo = memoize(f);
 
   const gf_memo = memoize(gradf);
 
   const x0: Point = new Point(2, 2);
 
-  const params: SteepestParams = {
-    eps1: 0.0001,
-    eps2: 0.0001,
-    M: 1000,
-    gamma: 0.1,
-  };
+  const eps1 = 0.0001;
+  const eps2 = 0.0001;
+  const gamma = 0.1;
+  const M = 1000;
 
-  const x_m = steepest(f_memo, gf_memo, x0, params);
+  const x_m = steepest(f_memo, gf_memo, x0, eps1, eps2, gamma, M);
 
   return makeMessage('steepest', x_m, f, f_memo.cache.size, gf_memo.cache.size);
 }
@@ -120,17 +102,14 @@ function runLM() {
 
   const x0 = new Point(2, 7);
 
-  const params: LMParams = {
-    eps1: 1e-4,
-    M: 1e3,
-    mu0: 1e7,
-  };
+  const eps1 = 1e-4;
+  const mu0 = 1e7;
+  const M = 1e3;
 
-  const x_m = lm(f_memo, gf_memo, hesse_memo, x0, params)
+  const x_m = lm(f_memo, gf_memo, hesse_memo, x0, eps1, mu0, M);
 
   return makeMessage('leveberg-marquardt', x_m, f, f_memo.cache.size, gf_memo.cache.size, hesse_memo.cache.size);
 }
-
 
 export function run() {
   const results = [runDescent, runSteepest, runLM].map((run) => run());

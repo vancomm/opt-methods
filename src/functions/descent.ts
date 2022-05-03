@@ -1,22 +1,11 @@
 import { Point, Vector } from '../classes/index.js';
 
-export type Params = {
-  eps1: number,
-  eps2: number,
-  M: number,
-  gamma: number,
-}
-
 export function descent(
   f: (point: Point) => number,
   gradf: (point: Point) => Vector,
   x0: Point,
-  params: Params,
+  eps1: number, eps2: number, gamma: number, M: number,
 ): Point {
-  const {
-    eps1, eps2, gamma, M,
-  } = params;
-
   function iter(xk: Point, k: number): Point {
     if (gradf(xk).length < eps1 || k >= M) return xk;
 

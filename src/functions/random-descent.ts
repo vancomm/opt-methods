@@ -14,7 +14,7 @@ export function randomDescent(
 	eps: number,
 	M: number, // max total iterations
 	n = 2, // max tests per point
-) {
+): Point {
 
 	let k = 0;
 	let i = 1;

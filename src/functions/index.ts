@@ -8,9 +8,9 @@ export { midpoint } from './midpoint.js';
 export { secant } from './secant.js';
 
 // lab3
-export { descent, Params as DescentParams } from './descent.js';
-export { steepest, Params as SteepestParams } from './steepest.js';
-export { lm, Params as LMParams } from './lm.js';
+export { descent } from './descent.js';
+export { steepest } from './steepest.js';
+export { lm } from './levenberg-marquardt.js';
 
 // lab 4
 export { pr } from './polack-ribiere.js';

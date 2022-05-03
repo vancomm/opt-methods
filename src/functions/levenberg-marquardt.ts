@@ -1,21 +1,15 @@
 /* eslint-disable no-use-before-define */
 import { Point, Vector, Matrix } from '../classes/index.js';
 
-export type Params = {
-  eps1: number,
-  M: number,
-  mu0: number;
-}
-
 export function lm(
   f: (point: Point) => number,
   gradf: (point: Point) => Vector,
   hesse: (point: Point) => Matrix,
   x0: Point,
-  params: Params,
+  eps1: number,
+  mu0: number,
+  M: number,
 ): Point {
-  const { eps1, M, mu0 } = params;
-
   function iter1(xk: Point, muk: number, k: number): Point {
     if (gradf(xk).length < eps1 || k >= M) return xk;
     return iter2(xk, muk, k);
