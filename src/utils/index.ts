@@ -5,5 +5,6 @@ export { memoize } from './memoize.js';
 export { replace } from './replace.js';
 export { getCenter } from './get-center.js';
 export { toPrecision } from './to-precision.js';
-export { green, yellow, red } from './color.js';
+export { makeMessage } from './make-message.js';
+export { green, yellow, red, gray } from './color.js';
 export { minArg, maxArg } from './simple-min-max.js';

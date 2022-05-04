@@ -6,21 +6,16 @@ function getRandomOrt() {
 	return randomVector.normalize();
 }
 
-export function randomDescent(
-	f: (x: Point) => number,
-	x0: Point,
-	a0: number,
-	lambda: number,
-	eps: number,
-	M: number, // max total iterations
-	n = 2, // max tests per point
-): Point {
-
+export function randomSearch(
+	f: (x: Point) => number, x0: Point,
+	a0: number, lambda: number, eps: number,
+	M: number, 		// max total iterations
+	n = 2, 				// max tests per point
+): [Point, string] {
 	let k = 0;
 	let i = 1;
 
 	const x = [x0];
-
 	let a = a0;
 
 	do {
@@ -41,12 +36,12 @@ export function randomDescent(
 		}
 
 		if (a < eps) {
-			return x[k];
+			return [x[k], `step too small\n\t\t(${a} < ${eps})`];
 		}
 
 		a *= lambda;
 		i = 1;
 
 	} while (k < M);
-	return x[k];
+	return [x[k], `too many iterations\n\t\t(${k})`];
 }

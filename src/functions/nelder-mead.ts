@@ -1,48 +1,31 @@
 import { Point, Matrix } from "../classes/index.js";
 import { sum, maxArg, minArg, replace, getCenter } from "../utils/index.js";
 
-function generateSimplexVetrices(x0: Point, n: number, a: number): Point[] {
+function generateSimplexVetrices(x0: Point, a: number, n: number,): Point[] {
 	const r = a * (Math.sqrt(n + 1) - 1 + n) / (n * Math.SQRT2);
 	const s = a * (Math.sqrt(n + 1) - 1) / (n * Math.SQRT2);
-
-	const points = Matrix.Identity(n)
-		.mapDeep((i) => i = (i === 1) ? r : s)
+	const points = Matrix.Generate(n, n, (i, j) => (i === j) ? r : s)
 		.rows.map((v) => x0.addVector(v));
-
 	return [x0, ...points];
 }
 
 export function nm(
-	f: (x: Point) => number,
-	x0: Point,
-	a: number,
-	eps: number,
-	alpha = 1,
-	gamma = 2,
-	beta = 0.5,
-	delta = 0.5,
-): Point {
+	f: (x: Point) => number, x0: Point,
+	a: number, eps: number,
+	alpha = 1, gamma = 2,
+	beta = 0.5, delta = 0.5,
+): [Point, string] {
 	const n = x0.count;
 
-	let x_arr = generateSimplexVetrices(x0, n, a);
-
-	let x_h: Point;
-	let x_l: Point;
-	let x_bar: Point;
-	let x_star: Point;
-	let x_starstar: Point;
+	let x_arr = generateSimplexVetrices(x0, a, n);
+	let x_h: Point, x_l: Point, x_bar: Point, x_star: Point, x_starstar: Point;
 
 	let y_arr: number[];
+	let y_h: number, y_l: number, y_bar: number, y_star: number, y_starstar: number;
 
-	let y_h: number;
-	let y_l: number;
-	let y_bar: number;
-	let y_star: number;
-	let y_starstar: number;
+	let stop1: boolean, stop2: boolean, stop3: boolean;
 
-	let stop1: boolean;
-	let stop2: boolean;
-	let stop3: boolean;
+	let rmsY: number, rangeY: number, rmsX: number;
 
 	do {
 		y_arr = x_arr.map(f);
@@ -70,6 +53,7 @@ export function nm(
 			}
 
 		} else if (y_arr.every((y) => (y === y_h) || y_star > y)) {
+
 			if (!(y_star > y_h)) {
 				x_arr = replace(x_arr, x_star, (x) => x == x_h);
 			}
@@ -87,15 +71,38 @@ export function nm(
 			x_arr = replace(x_arr, x_star, (x) => x == x_h);
 		}
 
-		const testSumY = Math.sqrt((1 / n * sum(y_arr.map((y) => (y - y_bar) ** 2))));
+		rmsY = Math.sqrt((1 / n * sum(y_arr.map((y) => (y - y_bar) ** 2))));
+		rangeY = y_h - y_l;
+		rmsX = Math.sqrt(sum(x_arr.map((x) => x.subtractPoint(x_bar)).map((v) => v.dotProduct(v))));
 
-		const testSumX = Math.sqrt(sum(x_arr.map((x) => x.subtractPoint(x_bar)).map((v) => v.dotProduct(v))));
-
-		stop1 = testSumY <= eps;
-		stop2 = y_h - y_l <= eps;
-		stop3 = testSumY <= eps * testSumX;
+		stop1 = rmsY <= eps;
+		stop2 = rangeY <= eps;
+		stop3 = rmsY <= eps * rmsX;
 
 	} while (!(stop1 || stop2 || stop3));
 
-	return x_bar;
+	const message1 =
+		`
+		rms deviation of function values in simplex 
+		vertices is smaller or equal to epsilon
+		(${rmsY} <= ${eps})`;
+	const message2 =
+		`
+		range of function values in simplex vertices
+		is smaller or equal to epsilon
+		(${rangeY} <= ${eps})`;
+	const message3 =
+		`
+		rms deviation of function values in simplex 
+		vertices is smaller or equal to rms deviation 
+		of simplex vertices multiplied by epsilon
+		(${rmsY} <= ${eps * rmsX})`;
+
+	const reasons = [];
+	if (stop1) reasons.push(message1);
+	if (stop2) reasons.push(message2);
+	if (stop3) reasons.push(message3);
+	const reason = reasons.map((r, i) => (i === 0) ? r.substring(3) : r).join('\n')
+
+	return [x_bar, reason];
 }
