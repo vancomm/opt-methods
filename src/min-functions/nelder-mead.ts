@@ -1,5 +1,7 @@
 import { Point, Matrix } from "../classes/index.js";
-import { sum, maxArg, minArg, replace, getCenter } from "../utils/index.js";
+import { FuncMath, maxArg, minArg, replace, getCenter } from "../utils/index.js";
+
+const { sum } = FuncMath;
 
 function generateSimplexVetrices(x0: Point, a: number, n: number,): Point[] {
 	const r = a * (Math.sqrt(n + 1) - 1 + n) / (n * Math.SQRT2);
@@ -71,9 +73,9 @@ export function nm(
 			x_arr = replace(x_arr, x_star, (x) => x == x_h);
 		}
 
-		rmsY = Math.sqrt((1 / n * sum(y_arr.map((y) => (y - y_bar) ** 2))));
+		rmsY = Math.sqrt((1 / n * sum(...y_arr.map((y) => (y - y_bar) ** 2))));
 		rangeY = y_h - y_l;
-		rmsX = Math.sqrt(sum(x_arr.map((x) => x.subtractPoint(x_bar)).map((v) => v.dotProduct(v))));
+		rmsX = Math.sqrt(sum(...x_arr.map((x) => x.subtractPoint(x_bar)).map((v) => v.dotProduct(v))));
 
 		stop1 = rmsY <= eps;
 		stop2 = rangeY <= eps;

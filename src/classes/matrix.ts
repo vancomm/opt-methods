@@ -95,7 +95,7 @@ export class Matrix extends Iterable<Vector> {
 
   removeColumn(colNumber: number): Matrix {
     if (colNumber > this.width) throw new Error('Invalid argument!');
-    return new Matrix(...this.cols.filter((vector, j) => j !== colNumber)).transpose();
+    return new Matrix(...this.cols.filter((_, j) => j !== colNumber)).transpose();
   }
 
   toNumber(): number {
@@ -112,7 +112,7 @@ export class Matrix extends Iterable<Vector> {
 
   get dim(): number {
     if (!this.isSquare) throw new Error('This only exists for square matrices!');
-    return this.rows.length;
+    return this.width;
   }
 
   get det(): number {
@@ -129,7 +129,7 @@ export class Matrix extends Iterable<Vector> {
       return a * d - b * c;
     }
     const addends = range(this.dim).map((k) => {
-      const one = (-1) ** (k + 2);
+      const one = (-1) ** (k);
       const a1k = this.at(0, k);
       const Mk = this.minor(0, k);
       return one * a1k * Mk;
@@ -144,22 +144,17 @@ export class Matrix extends Iterable<Vector> {
 
   algComp(i: number, j: number): number {
     if (!this.isSquare) throw new Error('This only exists for square matrices!');
-    return (-1) ** (i + j + 2) * this.minor(i, j);
+    return (-1) ** (i + j) * this.minor(i, j);
   }
 
   minors(): Matrix {
     if (!this.isSquare) throw new Error('This only exists for square matrices!');
-    const minorMatrix = new Matrix(...[...this]
-      .map((vector, rowNum) => new Vector(...[...vector]
-        .map((_, colNum) => this.minor(rowNum, colNum)))));
-    return minorMatrix;
+    return this.mapDeep((_, i, j) => this.minor(i, j));
   }
 
   algComps(): Matrix {
     if (!this.isSquare) throw new Error('This only exists for square matrices!');
-    return new Matrix(...[...this]
-      .map((vector, rowNum) => new Vector(...[...vector]
-        .map((_, colNum) => this.algComp(rowNum, colNum)))));
+    return this.mapDeep((_, i, j) => this.algComp(i, j));
   }
 
   inverse(): Matrix {

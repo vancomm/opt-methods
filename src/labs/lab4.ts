@@ -1,4 +1,4 @@
-import { pr, dfp } from '../functions/index.js';
+import { pr, dfp } from '../min-functions/index.js';
 import { Point, Vector } from '../classes/index.js';
 import { memoize, toPrecision } from '../utils/index.js';
 

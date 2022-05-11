@@ -6,12 +6,12 @@ export function lm(
   gradf: (point: Point) => Vector,
   hesse: (point: Point) => Matrix,
   x0: Point,
-  eps1: number,
+  eps: number,
   mu0: number,
   M: number,
 ): Point {
   function iter1(xk: Point, muk: number, k: number): Point {
-    if (gradf(xk).length < eps1 || k >= M) return xk;
+    if (gradf(xk).length < eps || k >= M) return xk;
     return iter2(xk, muk, k);
   }
 

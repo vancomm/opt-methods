@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-constructor */
 import { Iterable } from './iterable.js';
 import { Vector } from './vector.js';
 

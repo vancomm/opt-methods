@@ -1,5 +1,5 @@
 import { Point } from '../classes/index.js';
-import { randomSearch, nm } from '../functions/index.js';
+import { diffGradient, randomSearch, nm } from '../min-functions/index.js';
 import { memoize, makeMessage } from '../utils/index.js';
 
 const f = (p: Point): number => {
@@ -7,14 +7,27 @@ const f = (p: Point): number => {
 	return (x ** 4 - x * y + y ** 2 + 3 * x - 2 * y + 1);
 }
 
-const x0 = new Point(15, -30);
+const x0 = new Point(2, 3);
 
 const target = new Point(-0.846126, 0.576937);
 const precision = 4;
 
-function runRandomDescent() {
+function runDiffGradient() {
 	const f_memo = memoize(f, (arg) => arg.toString());
 	const initialStep = 3;
+	const stepDecayFactor = 1 - 1e-3;
+	const epsilon = 1e-7;
+	const maxIterations = 1e4;
+
+	const [x_min, stopReason] = diffGradient(f_memo, x0, initialStep, stepDecayFactor, epsilon, maxIterations);
+
+	console.log(makeMessage("diff gradient", x_min, f(x_min), f_memo.cache.size, target, precision, stopReason));
+}
+
+
+function runRandomDescent() {
+	const f_memo = memoize(f, (arg) => arg.toString());
+	const initialStep = 1;
 	const stepDecayFactor = 1 - 1e-3;
 	const epsilon = 1e-5;
 	const maxIterations = 1e4;
@@ -35,6 +48,7 @@ function runNM() {
 }
 
 export function run() {
+	// runDiffGradient();
 	runRandomDescent();
 	runNM();
 }

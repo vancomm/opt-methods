@@ -1,4 +1,4 @@
-import { brute, bisect, parabola } from '../functions/index.js';
+import { brute, bisect, parabola } from '../min-functions/index.js';
 import { memoize } from '../utils/index.js';
 
 type Func = (x: number) => number
@@ -25,7 +25,6 @@ function runFunc(minFunc: MinFunc) {
     `calls\t\t${calls}`,
   ].join('\n');
 }
-
 
 export function run() {
   const results = [brute, bisect, parabola].map(runFunc).join('\n\n');

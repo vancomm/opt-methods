@@ -17,7 +17,11 @@ export { pr } from './polack-ribiere.js';
 export { dfp } from './dfp.js';
 
 // lab 5
+export { diffGradient } from './diff-gradient.js';
 export { coordinate } from './coordinate.js';
 export { randomSearch } from './random-search.js';
 export { hj } from './hooke-jeeves.js';
 export { nm } from './nelder-mead.js';
+
+// lab 6 
+export { penalty } from './penalty.js';

@@ -1,10 +1,5 @@
 import { Point, Vector } from "../classes/index.js";
-import { range } from "../utils/index.js";
-
-function getEi(i: number, n: number) {
-	const values = range(n).map((_, index) => (index == i - 1) ? 1 : 0);
-	return new Vector(...values);
-}
+import { getEi } from "../utils/index.js";
 
 export function coordinate(
 	f: (x: Point) => number,

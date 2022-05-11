@@ -1,4 +1,4 @@
-import { descent, steepest, lm } from '../functions/index.js';
+import { descent, steepest, lm } from '../min-functions/index.js';
 import { Point, Vector, Matrix } from '../classes/index.js';
 import { memoize, toPrecision } from '../utils/index.js';
 
@@ -68,28 +68,26 @@ function runSteepest() {
 }
 
 function runLM() {
-  function f(point: Point): number {
-    const [x, y] = point;
-    return 100 * (x - y ** 2) ** 2 + (x ** 2 - y) ** 2;
+  function f(p: Point): number {
+    const [x, y] = p;
+    return x ** 4 - x * y + y ** 4 + 3 * x - 2 * y + 1;
   }
 
   function gradf(point: Point): Vector {
-    const dfdx = (x: number, y: number)
-      : number => (4 * x * (x ** 2 - y) + 200 * x - 200 * (y ** 2));
-    const dfdy = (x: number, y: number)
-      : number => -2 * (x ** 2) - 400 * y * (x - y ** 2) + 2 * y;
+    const dfdx = (x: number, y: number): number => 4 * x ** 3 - y + 3;
+    const dfdy = (x: number, y: number): number => -x + 4 * y ** 3 - 2;
     const [x, y] = point;
     return new Vector(dfdx(x, y), dfdy(x, y));
   }
 
   function hesse(point: Point): Matrix {
-    const dfdfdxdy = (x: number, y: number): number => -4 * x - 400 * y;
-    const dfdfdxdx = (x: number, y: number): number => 12 * (x ** 2) - 4 * y + 200;
-    const dfdfdydy = (x: number, y: number): number => -400 * x + 1200 * (y ** 2) + 200;
+    const d2fdxdy = (x: number, y: number): number => -1;
+    const d2fdx2 = (x: number, y: number): number => 12 * x ** 2;
+    const d2fdy2 = (x: number, y: number): number => 12 * y ** 2;
     const [x, y] = point;
     const matrix = new Matrix(
-      new Vector(dfdfdxdx(x, y), dfdfdxdy(x, y)),
-      new Vector(dfdfdxdy(x, y), dfdfdydy(x, y)),
+      new Vector(d2fdx2(x, y), d2fdxdy(x, y)),
+      new Vector(d2fdxdy(x, y), d2fdy2(x, y)),
     );
     return matrix;
   }
@@ -103,7 +101,7 @@ function runLM() {
   const x0 = new Point(2, 7);
 
   const eps1 = 1e-4;
-  const mu0 = 1e7;
+  const mu0 = 1e1;
   const M = 1e3;
 
   const x_m = lm(f_memo, gf_memo, hesse_memo, x0, eps1, mu0, M);
