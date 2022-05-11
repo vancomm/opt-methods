@@ -19,9 +19,22 @@ function runDiffGradient() {
 	const epsilon = 1e-7;
 	const maxIterations = 1e4;
 
-	const [x_min, stopReason] = diffGradient(f_memo, x0, initialStep, stepDecayFactor, epsilon, maxIterations);
+	const [x_min, stopReason, iterCount] = diffGradient(f_memo, x0, initialStep, stepDecayFactor, epsilon, maxIterations);
 
-	console.log(makeMessage("diff gradient", x_min, f(x_min), f_memo.cache.size, target, precision, stopReason));
+	const f_min = f(x_min);
+
+	const message = {
+		name: "diff gradient",
+		x_min,
+		f_min,
+		fCalls: f_memo.cache.size,
+		iterCount,
+		target,
+		precision,
+		stopReason
+	};
+
+	console.log(makeMessage(message));
 }
 
 
@@ -32,9 +45,22 @@ function runRandomDescent() {
 	const epsilon = 1e-5;
 	const maxIterations = 1e4;
 
-	const [x_min, stopReason] = randomSearch(f_memo, x0, initialStep, stepDecayFactor, epsilon, maxIterations);
+	const [x_min, stopReason, iterCount] = randomSearch(f_memo, x0, initialStep, stepDecayFactor, epsilon, maxIterations);
 
-	console.log(makeMessage("random search", x_min, f(x_min), f_memo.cache.size, target, precision, stopReason));
+	const f_min = f(x_min);
+
+	const message = {
+		name: "random search",
+		x_min,
+		f_min,
+		fCalls: f_memo.cache.size,
+		iterCount,
+		target,
+		precision,
+		stopReason
+	};
+
+	console.log(makeMessage(message));
 }
 
 function runNM() {
@@ -42,9 +68,22 @@ function runNM() {
 	const edgeSize = 10;
 	const epsilon = 1e-6;
 
-	const [x_min, stopReason] = nm(f_memo, x0, edgeSize, epsilon);
+	const [x_min, stopReason, iterCount] = nm(f_memo, x0, edgeSize, epsilon);
 
-	console.log(makeMessage("nedler-mead", x_min, f(x_min), f_memo.cache.size, target, precision, stopReason));
+	const f_min = f(x_min);
+
+	const message = {
+		name: "nedler-mead",
+		x_min,
+		f_min,
+		fCalls: f_memo.cache.size,
+		iterCount,
+		target,
+		precision,
+		stopReason
+	};
+
+	console.log(makeMessage(message));
 }
 
 export function run() {

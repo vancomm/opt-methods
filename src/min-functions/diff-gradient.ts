@@ -8,7 +8,7 @@ export function diffGradient(
 	lambda: number,
 	eps: number,
 	M = 1e4,
-): [Point, string] {
+): [Point, string, number] {
 	let k = 0;
 	let xk = x0;
 	let a = a0;
@@ -23,16 +23,16 @@ export function diffGradient(
 		}
 
 		if (xk_next.subtractPoint(xk).length < eps) {
-			return [xk, 'precision achieved'];
+			return [xk, 'precision achieved', k];
 		}
 
 		if (a < eps) {
-			return [xk, 'step too small'];
+			return [xk, 'step too small', k];
 		}
 
 		a *= lambda;
 		k++;
 	} while (k < M);
 
-	return [xk, 'too many iterations'];
+	return [xk, 'too many iterations', k];
 }

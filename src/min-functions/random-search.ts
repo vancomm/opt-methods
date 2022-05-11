@@ -11,7 +11,7 @@ export function randomSearch(
 	a0: number, lambda: number, eps: number,
 	M: number, 		// max total iterations
 	n = 2, 				// max tests per point
-): [Point, string] {
+): [Point, string, number] {
 	let k = 0;
 	let i = 1;
 
@@ -36,12 +36,12 @@ export function randomSearch(
 		}
 
 		if (a < eps) {
-			return [x[k], `step too small\n\t\t(${a} < ${eps})`];
+			return [x[k], `step too small\n\t\t(${a} < ${eps})`, k];
 		}
 
 		a *= lambda;
 		i = 1;
 
 	} while (k < M);
-	return [x[k], `too many iterations\n\t\t(${k})`];
+	return [x[k], `too many iterations\n\t\t(${k})`, k];
 }

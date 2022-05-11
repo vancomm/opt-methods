@@ -21,7 +21,7 @@ export function penalty(
 		epsilon: 1e-6,
 	},
 	r0 = 1e-2, C = 4, M = 1e4,
-): [Point, string] {
+): [Point, string, number] {
 
 	// penalty function
 	function P(x: Point, rk: number) {
@@ -53,11 +53,11 @@ export function penalty(
 
 	do {
 		const get_x_star = (x: Point) => F(x, rk);
-		const [x_star, stopReason] = nm(get_x_star, xk, edgeSize, epsilon);
+		const [x_star] = nm(get_x_star, xk, edgeSize, epsilon);
 
 		const pen = P(x_star, rk);
 
-		if (pen <= eps) return [x_star, 'precision achieved'];
+		if (pen <= eps) return [x_star, 'precision achieved', k];
 
 		rk *= C;
 		xk = x_star;
@@ -65,5 +65,5 @@ export function penalty(
 
 	} while (k < M);
 
-	return [xk, 'too many iterations'];
+	return [xk, 'too many iterations', k];
 }

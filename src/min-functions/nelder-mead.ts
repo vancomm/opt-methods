@@ -16,7 +16,7 @@ export function nm(
 	a: number, eps: number,
 	alpha = 1, gamma = 2,
 	beta = 0.5, delta = 0.5,
-): [Point, string] {
+): [Point, string, number] {
 	const n = x0.count;
 
 	let x_arr = generateSimplexVetrices(x0, a, n);
@@ -28,6 +28,8 @@ export function nm(
 	let stop1: boolean, stop2: boolean, stop3: boolean;
 
 	let rmsY: number, rangeY: number, rmsX: number;
+
+	let k = 0;
 
 	do {
 		y_arr = x_arr.map(f);
@@ -81,6 +83,7 @@ export function nm(
 		stop2 = rangeY <= eps;
 		stop3 = rmsY <= eps * rmsX;
 
+		k++;
 	} while (!(stop1 || stop2 || stop3));
 
 	const message1 =
@@ -106,5 +109,5 @@ export function nm(
 	if (stop3) reasons.push(message3);
 	const reason = reasons.map((r, i) => (i === 0) ? r.substring(3) : r).join('\n')
 
-	return [x_bar, reason];
+	return [x_bar, reason, k];
 }

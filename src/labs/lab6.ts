@@ -40,9 +40,22 @@ function runPenalty() {
 	const penCoef = 2;
 	const maxIterations = 1e4;
 
-	const [x_min, stopReason] = penalty(x0, f_memo, g, m, p, epsilon, nmParams, pen, penCoef, maxIterations);
+	const [x_min, stopReason, iterCount] = penalty(x0, f_memo, g, m, p, epsilon, nmParams, pen, penCoef, maxIterations);
 
-	console.log(makeMessage("penalty method", x_min, f(x_min), f_memo.cache.size, target, precision, stopReason));
+	const f_min = f(x_min);
+
+	const message = {
+		name: "penalty method",
+		x_min,
+		f_min,
+		fCalls: f_memo.cache.size,
+		iterCount,
+		target,
+		precision,
+		stopReason
+	}
+
+	console.log(makeMessage(message));
 }
 
 export function run() {

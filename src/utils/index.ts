@@ -8,6 +8,6 @@ export { replace } from './replace.js';
 export * as FuncMath from './func-math.js';
 export { getCenter } from './get-center.js';
 export { toPrecision } from './to-precision.js';
-export { makeMessage } from './make-message.js';
-export { green, yellow, red, gray } from './color.js';
 export { minArg, maxArg } from './simple-min-max.js';
+export { green, yellow, red, gray } from './color.js';
+export { makeMessage } from './make-message.js';
