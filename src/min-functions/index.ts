@@ -25,3 +25,5 @@ export { nm } from './nelder-mead.js';
 
 // lab 6 
 export { penalty } from './penalty.js';
+export { barrier } from './barrier.js';
+export { randomSearchWithCheck } from './random-search-with-check.js';

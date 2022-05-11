@@ -1,6 +1,5 @@
 import { Point } from "../classes/index.js";
 import { FuncMath } from "../utils/index.js";
-import { diffGradient } from "./diff-gradient.js";
 import { nm } from "./nelder-mead.js";
 
 const { sigma } = FuncMath;
@@ -12,9 +11,8 @@ const nonNegative = (func: (arg: any) => number) => (arg: any) => {
 
 export function penalty(
 	x0: Point, f: (x: Point) => number,
-	g: ((x: Point) => number)[], // restraint functions
-	m: number,	// index of first g(x) <= 0 type restraint function
-	p: number, 	// number of restraint functions
+	g: ((x: Point) => number)[],
+	m: number, p: number,
 	eps: number,
 	nmParams = {
 		edgeSize: 10,
@@ -52,6 +50,8 @@ export function penalty(
 	let rk = r0;
 
 	do {
+		k++;
+
 		const get_x_star = (x: Point) => F(x, rk);
 		const [x_star] = nm(get_x_star, xk, edgeSize, epsilon);
 
@@ -61,8 +61,6 @@ export function penalty(
 
 		rk *= C;
 		xk = x_star;
-		k++;
-
 	} while (k < M);
 
 	return [xk, 'too many iterations', k];
