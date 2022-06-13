@@ -6,11 +6,11 @@ export default class Matrix extends Iterable<Vector> {
   static Generate(width: number, height: number, callback: (row: number, col: number) => number): Matrix {
     return new Matrix(
       ...range(height).map((_, j) => new Vector(
-        ...range(width).map((_, i) => callback(i, j)))));
+        ...range(width).map((__, i) => callback(i, j)))));
   }
 
   static Identity(dim: number): Matrix {
-    return Matrix.Generate(dim, dim, (i, j) => Number(i === j))
+    return Matrix.Generate(dim, dim, (i, j) => Number(i === j));
   }
 
   get rows(): Vector[] {
@@ -83,7 +83,7 @@ export default class Matrix extends Iterable<Vector> {
     const rows = this.rows;
     const cols = matrix.cols;
     const vectors = rows.map((row) =>
-      new Vector(...cols.map((col) => row.dotProduct(col)))
+      new Vector(...cols.map((col) => row.dotProduct(col))),
     );
     return new Matrix(...vectors);
   }
@@ -124,7 +124,7 @@ export default class Matrix extends Iterable<Vector> {
     if (this.dim === 2) {
       const [
         [a, b],
-        [c, d]
+        [c, d],
       ] = this;
       return a * d - b * c;
     }

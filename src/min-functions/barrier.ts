@@ -1,6 +1,6 @@
-import Point from "../classes/point.js";
-import { sigma } from "../utils/func-math.js";
-import randomSearchWithCheck from "./random-search-with-check.js";
+import Point from '../classes/point.js';
+import { sigma } from '../utils/func-math.js';
+import randomSearchWithCheck from './random-search-with-check.js';
 
 export default function barrier(
   x0: Point, f: (x: Point) => number,
@@ -17,11 +17,11 @@ export default function barrier(
 ): [Point, string, number] {
 
   function checkInside(x: Point) {
-    const gEq = g.slice(0, m);
-    const gLeq = g.slice(m, p);
+    const gEqs = g.slice(0, m);
+    const gLeqs = g.slice(m, p);
 
-    const first = gEq.every((g) => g(x) === 0);
-    const second = gLeq.every((g) => g(x) <= 0);
+    const first = gEqs.every((geq) => geq(x) === 0);
+    const second = gLeqs.every((gleq) => gleq(x) <= 0);
 
     return first && second;
   }

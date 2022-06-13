@@ -7,7 +7,7 @@ import makeMessage from '../utils/make-message.js';
 const f = (p: Point): number => {
   const [x, y] = p;
   return (x ** 4 - x * y + y ** 2 + 3 * x - 2 * y + 1);
-}
+};
 
 const x0 = new Point(2, 3);
 
@@ -25,14 +25,14 @@ function runRandomSearch() {
   const f_min = f(x_min);
 
   const message = {
-    name: "random search",
+    name: 'random search',
     x_min,
     f_min,
     fCalls: f_memo.cache.size,
     iterCount,
     target,
     errFunc: (res: Point, tgt: Point) => tgt.subtractPoint(res).length,
-    stopReason
+    stopReason,
   };
 
   console.log(makeMessage(message));
@@ -48,14 +48,14 @@ function runNM() {
   const f_min = f(x_min);
 
   const message = {
-    name: "nedler-mead",
+    name: 'nedler-mead',
     x_min,
     f_min,
     fCalls: f_memo.cache.size,
     iterCount,
     target,
     errFunc: (res: Point, tgt: Point) => tgt.subtractPoint(res).length,
-    stopReason
+    stopReason,
   };
 
   console.log(makeMessage(message));

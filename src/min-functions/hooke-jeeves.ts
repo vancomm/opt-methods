@@ -1,5 +1,5 @@
-import Point from "../classes/point.js";
-import getEi from "../utils/get-e-i.js";
+import Point from '../classes/point.js';
+import getEi from '../utils/get-e-i.js';
 
 export default function hj(
   f: (x: Point) => number,

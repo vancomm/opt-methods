@@ -1,27 +1,31 @@
-import chalk from "chalk";
+import chalk from 'chalk';
 
-function color(message: any, color: string, bold = true) {
-	const colored = chalk.hex(color);
-	return bold ? colored.bold(message) : colored(message);
+function color(message: any, colorHex: string, bold = true) {
+  const colored = chalk.hex(colorHex);
+  return bold ? colored.bold(message) : colored(message);
 }
 
-export function green(message: any, bold?: boolean) {
-	const green = '#b5e990';
-	return color(message, green, bold);
-}
-
-export function yellow(message: any, bold?: boolean) {
-	const yellow = '#ffe588';
-	return color(message, yellow, bold);
+export function pink(message: any, bold?: boolean) {
+  const pinkHex = '#F0B6D5';
+  return color(message, pinkHex, bold);
 }
 
 export function red(message: any, bold?: boolean) {
-	// const pink = '#F0B6D5';
-	const red = '#FF6961';
-	return color(message, red, bold);
+  const redHex = '#FF6961';
+  return color(message, redHex, bold);
+}
+
+export function yellow(message: any, bold?: boolean) {
+  const yellowHex = '#ffe588';
+  return color(message, yellowHex, bold);
+}
+
+export function green(message: any, bold?: boolean) {
+  const greenHex = '#b5e990';
+  return color(message, greenHex, bold);
 }
 
 export function gray(message: any, bold?: boolean) {
-	const gray = '#6d757a';
-	return color(message, gray, bold);
+  const grayHex = '#6d757a';
+  return color(message, grayHex, bold);
 }

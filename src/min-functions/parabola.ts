@@ -1,4 +1,4 @@
-import { minArg } from "../utils/simple-min-max.js";
+import { minArg } from '../utils/simple-min-max.js';
 
 export default function parabola(f: (x: number) => number, eps: number, interval: [number, number?]) {
   const [x0] = interval;

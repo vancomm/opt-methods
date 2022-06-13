@@ -1,5 +1,5 @@
 import Vector from '../classes/vector.js';
-import Point from "../classes/point.js";
+import Point from '../classes/point.js';
 
 export default function descent(
   f: (point: Point) => number,

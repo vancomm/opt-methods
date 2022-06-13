@@ -1,7 +1,7 @@
 import { program } from 'commander';
-import * as imports from './labs/index.js'
+import * as imports from './labs/index.js';
 
-export function cli() {
+export default function cli() {
   const labs = Object.values(imports);
 
   program

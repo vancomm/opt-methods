@@ -1,7 +1,7 @@
 export default function midpoint(
   df: (x: number) => number,
   eps: number,
-  interval: [number, number]
+  interval: [number, number],
 ): number {
   const [a, b] = interval;
   const x_m = (a + b) / 2;

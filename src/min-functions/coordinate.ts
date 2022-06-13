@@ -1,6 +1,6 @@
 import Vector from '../classes/vector.js';
-import Point from "../classes/point.js";
-import getEi from "../utils/get-e-i.js";
+import Point from '../classes/point.js';
+import getEi from '../utils/get-e-i.js';
 
 export default function coordinate(
   f: (x: Point) => number,

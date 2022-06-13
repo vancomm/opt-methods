@@ -1,11 +1,11 @@
-import Point from "../classes/point.js";
-import { sigma } from "../utils/func-math.js";
-import nm from "./nelder-mead.js";
+import Point from '../classes/point.js';
+import { sigma } from '../utils/func-math.js';
+import nm from './nelder-mead.js';
 
 const nonNegative = (func: (arg: any) => number) => (arg: any) => {
   const value = func(arg);
   return value > 0 ? value : 0;
-}
+};
 
 export default function penalty(
   x0: Point, f: (x: Point) => number,
@@ -30,7 +30,7 @@ export default function penalty(
     const gxPlusSquared = (j: number) => gxPlus(j) ** 2;
 
     const sigma1 = sigma(gxSquared)(0)(m - 1);
-    const sigma2 = sigma(gxPlusSquared)(m)(p - 1)
+    const sigma2 = sigma(gxPlusSquared)(m)(p - 1);
 
     return (rk / 2) * (sigma1 + sigma2);
   }

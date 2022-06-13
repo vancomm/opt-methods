@@ -2,27 +2,8 @@ import Point from '../classes/point.js';
 import Vector from '../classes/vector.js';
 import pr from '../min-functions/polack-ribiere.js';
 import dfp from '../min-functions/dfp.js';
+import makeMessage from '../utils/make-message.js';
 import memoize from '../utils/memoize.js';
-import toPrecision from '../utils/to-precision.js';
-
-function makeMessage(
-  name: string,
-  x_m: Point,
-  f: (point: Point) => number,
-  callsF: number,
-  callsGradF: number,
-): string {
-  const precision = 4;
-  const [x, y] = x_m;
-  const message = [
-    `${name}`,
-    `x_m:\t\t(${toPrecision(x, precision)}, ${toPrecision(y, precision)})`,
-    `f(x_m):\t\t${toPrecision(f(x_m), 4)}`,
-    `f calls:\t${callsF}`,
-    `grad calls:\t${callsGradF}`,
-  ].join('\n');
-  return message;
-}
 
 function f(p: Point): number {
   const [x, y] = p;
@@ -42,8 +23,17 @@ function runPR() {
   const x0 = new Point(1, 2);
   const [eps1, eps2] = [1e-5, 1e-5];
   const M = 1000;
-  const x_m = pr(f_memo, gf_memo, x0, eps1, eps2, M);
-  return makeMessage('polack-ribiere', x_m, f, f_memo.cache.size, gf_memo.cache.size);
+  const x_min = pr(f_memo, gf_memo, x0, eps1, eps2, M);
+  const messageParams = {
+    name: 'polack-ribiere',
+    x_min,
+    f_min: f(x_min),
+    fCalls: f_memo.cache.size,
+    custom: {
+      'grad calls': gf_memo.cache.size.toString(10),
+    },
+  };
+  return makeMessage(messageParams);
 }
 
 function runDFP() {
@@ -51,8 +41,17 @@ function runDFP() {
   const gf_memo = memoize(gradf);
   const x0 = new Point(2, 3);
   const eps = 1e-3;
-  const x_m = dfp(f_memo, gf_memo, x0, eps);
-  return makeMessage('davidson-fletcher-powell', x_m, f, f_memo.cache.size, gf_memo.cache.size);
+  const x_min = dfp(f_memo, gf_memo, x0, eps);
+  const messageParams = {
+    name: 'davidson-fletcher-powell',
+    x_min,
+    f_min: f(x_min),
+    fCalls: f_memo.cache.size,
+    custom: {
+      'grad calls': gf_memo.cache.size.toString(10),
+    },
+  };
+  return makeMessage(messageParams);
 }
 
 export function run() {

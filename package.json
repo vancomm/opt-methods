@@ -2,8 +2,8 @@
   "name": "opt-methods",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "type": "module",
+  "private": "true",
   "bin": {
     "opt-labs": "bin/opt-labs.js"
   },
@@ -23,5 +23,12 @@
   "dependencies": {
     "chalk": "^5.0.1",
     "commander": "^9.2.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "eslint": "^8.17.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0"
   }
 }

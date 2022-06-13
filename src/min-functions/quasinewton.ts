@@ -10,6 +10,8 @@ export default function quasinewton(
   eps: number,
   calcHkNext: (Hk: Matrix, dxk: Vector, dyk: Vector) => Matrix) {
 
+  const H0 = Matrix.Identity(2);
+
   function iter(xk: Point, Hk: Matrix): Point {
     const dk = Hk.multiplyByScalar(-1).multiplyByVector(gradf(xk));
 
@@ -26,10 +28,8 @@ export default function quasinewton(
 
     const Hk_next = calcHkNext(H0, delta_xk, delta_yk);
 
-    return iter(xk_next, Hk_next)
+    return iter(xk_next, Hk_next);
   }
-
-  const H0 = Matrix.Identity(2);
 
   return iter(x0, H0);
 }

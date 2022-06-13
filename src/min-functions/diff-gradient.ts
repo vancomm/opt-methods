@@ -1,5 +1,5 @@
-import Point from "../classes/point.js";
-import grad from "../utils/grad.js";
+import Point from '../classes/point.js';
+import grad from '../utils/grad.js';
 
 export default function diffGradient(
   f: (x: Point) => number,

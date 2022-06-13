@@ -1,7 +1,7 @@
-/* eslint-disable no-use-before-define */
-import Point from "../classes/point.js";
-import Vector from "../classes/vector.js";
-import Matrix from "../classes/matrix.js";
+/* eslint-disable @typescript-eslint/no-use-before-define */
+import Point from '../classes/point.js';
+import Vector from '../classes/vector.js';
+import Matrix from '../classes/matrix.js';
 
 export default function lm(
   f: (point: Point) => number,

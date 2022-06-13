@@ -1,7 +1,7 @@
 export default function secant(
   df: (x: number) => number,
   eps: number,
-  interval: [number, number]
+  interval: [number, number],
 ): number {
   const [a, b] = interval;
   if (df(a) * df(b) < 0) {

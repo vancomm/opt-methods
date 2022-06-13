@@ -3,8 +3,8 @@ import bisect from '../min-functions/bisect.js';
 import parabola from '../min-functions/parabola.js';
 import memoize from '../utils/memoize.js';
 
-type Func = (x: number) => number
-type MinFunc = (f: Func, eps: number, interval: [number, number]) => number
+type Func = (x: number) => number;
+type MinFunc = (f: Func, eps: number, interval: [number, number]) => number;
 
 const a = 1;
 const b = 4;

@@ -29,7 +29,7 @@ export default function pr(
   let xk_next = undefined;
 
   let dk_prev = undefined;
-  let dk = gradf(xk).multiplyByScalar(-1)
+  let dk = gradf(xk).multiplyByScalar(-1);
 
   let bk = 0;
 
@@ -40,11 +40,11 @@ export default function pr(
 
     if (xk_prev) bk = calcBk(k, gradf, xk, xk_prev);
 
-    if (dk_prev) dk = calcDk(gradf(xk), bk, dk_prev)
+    if (dk_prev) dk = calcDk(gradf(xk), bk, dk_prev);
 
     tk_star = minimize(
       (tk: number) => f(xk.addVector(dk.multiplyByScalar(tk))),
-      0
+      0,
     );
 
     xk_next = xk.addVector(dk.multiplyByScalar(tk_star));

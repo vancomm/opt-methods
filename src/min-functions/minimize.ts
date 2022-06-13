@@ -1,4 +1,4 @@
-import { minArg } from "../utils/simple-min-max.js";
+import { minArg } from '../utils/simple-min-max.js';
 
 export default function minimize(f: (x: number) => number, x0: number, eps = 1e-4): number {
   const dx = eps * 10;

@@ -1,0 +1,4 @@
+.vscode
+built
+bin
+node_modules

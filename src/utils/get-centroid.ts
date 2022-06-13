@@ -1,5 +1,5 @@
-import Point from "../classes/point.js";
-import Vector from "../classes/vector.js";
+import Point from '../classes/point.js';
+import Vector from '../classes/vector.js';
 
 export default function getCentroid(...x_arr: Point[]): Point {
   return x_arr

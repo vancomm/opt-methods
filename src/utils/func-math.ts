@@ -1,4 +1,4 @@
-import range from "./range.js";
+import range from './range.js';
 
 export const add = (a: number) =>
   (b: number) =>
@@ -6,7 +6,7 @@ export const add = (a: number) =>
 
 export const sum = (...addends: number[]) => {
   if (!addends.length) return 0;
-  return addends.reduce((acc, curr) => add(acc)(curr))
+  return addends.reduce((acc, curr) => add(acc)(curr));
 };
 
 export const sigma = (func: (x: number) => number) =>

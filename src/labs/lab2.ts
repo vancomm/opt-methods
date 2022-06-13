@@ -2,8 +2,8 @@ import midpoint from '../min-functions/midpoint.js';
 import secant from '../min-functions/secant.js';
 import memoize from '../utils/memoize.js';
 
-type Func = (x: number) => number
-type MinFunc = (f: Func, eps: number, interval: [number, number]) => number
+type Func = (x: number) => number;
+type MinFunc = (f: Func, eps: number, interval: [number, number]) => number;
 
 const [a, b] = [2, 6];
 const eps = 0.002;

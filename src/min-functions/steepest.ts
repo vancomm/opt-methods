@@ -6,7 +6,7 @@ export default function steepest(
   f: (point: Point) => number,
   gradf: (point: Point) => Vector,
   x0: Point,
-  eps1: number, eps2: number, gamma: number, M: number
+  eps1: number, eps2: number, gamma: number, M: number,
 ): Point {
   let previous_k = false;
 

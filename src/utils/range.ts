@@ -15,7 +15,7 @@ function range(first: number, second?: number, third?: number): number[] {
   const [start, stop, step] = [first, second, third];
   const n = Math.ceil((stop - start) / step);
   return [...Array(n).keys()]
-    .map((i) => start + i * step)
+    .map((i) => start + i * step);
 }
 
 export default range;

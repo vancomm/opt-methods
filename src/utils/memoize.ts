@@ -7,7 +7,7 @@ export default function memoize<T>(fn: (...args: T[]) => any, resolver?: (...arg
     return cache.has(key)
       ? cache.get(key)
       : cache.set(key, fn.call(this, ...args)) && cache.get(key);
-  }
+  };
 
   memoized.cache = cache;
   return memoized;
