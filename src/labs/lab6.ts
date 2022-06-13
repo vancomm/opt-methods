@@ -26,31 +26,33 @@ function runPenalty() {
 
 	const f_memo = memoize(f, (arg) => arg.toString());
 
-	const epsilon = 1e-6;
+	const pen = 1;
+	const penCoef = 10;
+
+	const epsilon = 1e-1;
 
 	const nmParams = {
-		edgeSize: 10,
-		epsilon: 1e-6
+		edgeSize: 3,
+		epsilon: 1e-2
 	}
 
-	const pen = 1e-2;
-	const penCoef = 2;
 	const maxIterations = 1e4;
 
 	const [x_min, iterCount, stopReason] = penalty(x0, f_memo, g, m, p, epsilon, nmParams, pen, penCoef, maxIterations);
 
-	const message = {
+	const messageParams = {
 		name: "penalty method",
 		x_min,
 		f_min: f(x_min),
 		fCalls: f_memo.cache.size,
 		iterCount,
 		target: new Point(4.12325, 8.90273),
+		errFunc: (res: Point, tgt: Point) => tgt.subtractPoint(res).length,
 		precision: 4,
 		stopReason
 	}
 
-	console.log(makeMessage(message));
+	console.log(makeMessage(messageParams));
 }
 
 export function run() {

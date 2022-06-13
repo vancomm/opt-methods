@@ -20,7 +20,6 @@ export function penalty(
 	},
 	r0 = 1e-2, C = 4, M = 1e4,
 ): [Point, number, string] {
-
 	// penalty function
 	function P(x: Point, rk: number) {
 		const gEq = g.slice(0, m);
@@ -38,11 +37,6 @@ export function penalty(
 		return (rk / 2) * (sigma1 + sigma2);
 	}
 
-	// auxiliary function
-	function F(x: Point, rk: number) {
-		return f(x) + P(x, rk);
-	}
-
 	const { edgeSize, epsilon } = nmParams;
 
 	let k = 0;
@@ -52,7 +46,7 @@ export function penalty(
 	do {
 		k++;
 
-		const [xk_star] = nm((x: Point) => F(x, rk), xk, edgeSize, epsilon);
+		const [xk_star] = nm((x: Point) => f(x) + P(x, rk), xk, edgeSize, epsilon);
 
 		const pen = P(xk_star, rk);
 

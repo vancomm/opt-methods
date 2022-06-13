@@ -1,3 +1,4 @@
+export { cut } from './cut.js';
 export { zip } from './zip.js';
 export { grad } from './grad.js';
 export { range } from './range.js';
