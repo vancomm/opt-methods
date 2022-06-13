@@ -18,4 +18,4 @@ function range(first: number, second?: number, third?: number): number[] {
     .map((i) => start + i * step)
 }
 
-export { range };
+export default range;

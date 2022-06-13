@@ -1,8 +1,8 @@
-import { range } from '../utils/index.js';
-import { Vector } from './vector.js';
-import { Iterable } from './iterable.js';
+import Vector from './vector.js';
+import Iterable from './iterable.js';
+import range from '../utils/range.js';
 
-export class Matrix extends Iterable<Vector> {
+export default class Matrix extends Iterable<Vector> {
   static Generate(width: number, height: number, callback: (row: number, col: number) => number): Matrix {
     return new Matrix(
       ...range(height).map((_, j) => new Vector(

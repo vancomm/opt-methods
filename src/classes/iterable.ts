@@ -1,4 +1,4 @@
-export class Iterable<T> {
+export default class Iterable<T> {
   private _values: T[];
 
   constructor(...values: T[]) {

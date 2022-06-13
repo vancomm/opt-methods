@@ -1,6 +1,6 @@
-import { minArg } from '../utils/index.js';
+import { minArg } from '../utils/simple-min-max.js';
 
-export function bisect(f: (x: number) => number, eps: number, interval: [number, number]): number {
+export default function bisect(f: (x: number) => number, eps: number, interval: [number, number]): number {
   const [a, b] = interval;
   const l = b - a;
 

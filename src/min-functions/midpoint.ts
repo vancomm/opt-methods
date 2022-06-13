@@ -1,4 +1,4 @@
-export function midpoint(
+export default function midpoint(
   df: (x: number) => number,
   eps: number,
   interval: [number, number]

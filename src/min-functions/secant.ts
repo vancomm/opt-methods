@@ -1,4 +1,4 @@
-export function secant(
+export default function secant(
   df: (x: number) => number,
   eps: number,
   interval: [number, number]

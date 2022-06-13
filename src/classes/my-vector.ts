@@ -1,8 +1,8 @@
-import { zip } from '../utils/zip.js';
-import { FuncMath } from '../utils/index.js';
+import zip from '../utils/zip.js';
+import * as FuncMath from '../utils/func-math.js';
 
 export type MyVector = {
-	values: number[]
+  values: number[]
 }
 
 export const makeVector = (...values: number[]): MyVector => { return { values } };

@@ -1,6 +1,11 @@
-import { descent, steepest, lm } from '../min-functions/index.js';
-import { Point, Vector, Matrix } from '../classes/index.js';
-import { memoize, toPrecision } from '../utils/index.js';
+import Point from '../classes/point.js';
+import Vector from '../classes/vector.js';
+import Matrix from '../classes/matrix.js';
+import descent from '../min-functions/descent.js';
+import steepest from '../min-functions/steepest.js';
+import lm from '../min-functions/levenberg-marquardt.js';
+import memoize from '../utils/memoize.js';
+import toPrecision from '../utils/to-precision.js';
 
 function makeMessage(
   name: string,

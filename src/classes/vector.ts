@@ -1,9 +1,9 @@
-import { Iterable } from './iterable.js';
-import { Point } from './point.js';
-import { Matrix } from './matrix.js';
-import { range } from '../utils/index.js';
+import Iterable from './iterable.js';
+import Point from './point.js';
+import Matrix from './matrix.js';
+import range from '../utils/range.js';
 
-export class Vector extends Iterable<number> {
+export default class Vector extends Iterable<number> {
   static Generate(count: number, callback: (index: number) => number) {
     return new Vector(...range(count).map((_, i) => callback(i)));
   }

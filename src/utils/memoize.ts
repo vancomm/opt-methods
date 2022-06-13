@@ -1,4 +1,4 @@
-export function memoize<T>(fn: (...args: T[]) => any, resolver?: (...args: T[]) => any) {
+export default function memoize<T>(fn: (...args: T[]) => any, resolver?: (...args: T[]) => any) {
   const cache = new Map();
 
   const memoized = function (this: any, ...args: T[]) {

@@ -1,7 +1,7 @@
-import { Iterable } from './iterable.js';
-import { Vector } from './vector.js';
+import Iterable from './iterable.js';
+import Vector from './vector.js';
 
-export class Point extends Iterable<number> {
+export default class Point extends Iterable<number> {
   get count() {
     return [...this].length;
   }

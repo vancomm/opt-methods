@@ -1,6 +1,7 @@
-import { Point, Vector } from '../classes/index.js';
+import Vector from '../classes/vector.js';
+import Point from "../classes/point.js";
 
-export function descent(
+export default function descent(
   f: (point: Point) => number,
   gradf: (point: Point) => Vector,
   x0: Point,

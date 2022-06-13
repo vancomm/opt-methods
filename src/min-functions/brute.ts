@@ -1,6 +1,7 @@
-import { range, minArg } from '../utils/index.js';
+import range from '../utils/range.js';
+import { minArg } from '../utils/simple-min-max.js';
 
-export function brute(f: (x: number) => number, eps: number, interval: [number, number]) {
+export default function brute(f: (x: number) => number, eps: number, interval: [number, number]) {
   const [a, b] = interval;
 
   const n = Math.ceil((b - a) / eps);

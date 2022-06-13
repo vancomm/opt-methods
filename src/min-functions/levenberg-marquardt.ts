@@ -1,7 +1,9 @@
 /* eslint-disable no-use-before-define */
-import { Point, Vector, Matrix } from '../classes/index.js';
+import Point from "../classes/point.js";
+import Vector from "../classes/vector.js";
+import Matrix from "../classes/matrix.js";
 
-export function lm(
+export default function lm(
   f: (point: Point) => number,
   gradf: (point: Point) => Vector,
   hesse: (point: Point) => Matrix,

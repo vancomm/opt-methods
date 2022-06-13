@@ -1,7 +1,8 @@
-import { Point, Vector } from '../classes/index.js';
-import { parabola } from './parabola.js';
+import Point from '../classes/point.js';
+import Vector from '../classes/vector.js';
+import parabola from './parabola.js';
 
-export function steepest(
+export default function steepest(
   f: (point: Point) => number,
   gradf: (point: Point) => Vector,
   x0: Point,

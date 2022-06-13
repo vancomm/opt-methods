@@ -1,5 +1,7 @@
-import { brute, bisect, parabola } from '../min-functions/index.js';
-import { memoize } from '../utils/index.js';
+import brute from '../min-functions/brute.js';
+import bisect from '../min-functions/bisect.js';
+import parabola from '../min-functions/parabola.js';
+import memoize from '../utils/memoize.js';
 
 type Func = (x: number) => number
 type MinFunc = (f: Func, eps: number, interval: [number, number]) => number
